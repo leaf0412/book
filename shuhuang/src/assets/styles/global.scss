@@ -1,0 +1,19 @@
+$fontSize: 37.5;
+
+$color: rgb(63, 63, 63);
+
+@function px2rem($px) {
+  @return ($px / $fontSize) + rem;
+}
+
+@mixin center() {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+//单行隐藏
+@mixin ell() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
