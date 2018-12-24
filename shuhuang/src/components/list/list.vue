@@ -21,9 +21,6 @@ export default {
 
     }
   },
-  components: {},
-  computed: {},
-  mounted() {},
   methods: {}
 }
 
