@@ -9,8 +9,8 @@
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
+1. npm install 或者 yarn 
+2. 运行 npm run serve 或者 yarn serve
 3. xxxx
 
 #### 使用说明
