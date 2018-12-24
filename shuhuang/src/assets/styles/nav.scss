@@ -1,0 +1,16 @@
+.nav {
+  padding: 0.2rem 0;
+  box-sizing: border-box;
+  .menu {
+    display: flex;
+    justify-content: space-around;
+    .item{
+      line-height: 1rem;
+      font-size: .45rem;
+      &.active {
+        color: #c33537;
+        border-bottom: 2px solid #c33537;
+      }
+    }
+  }
+}
