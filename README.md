@@ -11,7 +11,7 @@
 
 1. npm install 或者 yarn 
 2. 运行 npm run serve 或者 yarn serve
-3. xxxx
+3. 打包 npm run build 或者 yarn build
 
 #### 使用说明
 
