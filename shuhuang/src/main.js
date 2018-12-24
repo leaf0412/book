@@ -8,6 +8,7 @@ import "./assets/styles/font/iconfont.css";
 /* rem */
 import "./assets/js/flexible.js";
 
+
 /* fastclick */
 import fastclick from "fastclick";
 if (addEventListener in document) {
