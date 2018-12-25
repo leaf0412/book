@@ -1,16 +1,16 @@
 <template>
   <div class="item">
     <div class="img"
-         :style="{backgroundImage: 'url('+emtry+')'}"></div>
+         :style="{ backgroundImage: 'url(' + emtry + ')' }"></div>
     <div class="info">
-      <div class="title">{{list.title}}</div>
-      <div class="description">{{list.desc}}</div>
+      <div class="title">{{ list.title }}</div>
+      <div class="description">{{ list.desc }}</div>
       <div class="foot">
         <div class="author">
-          <span class="icon sky-leaf leaf-yonghu"></span> {{list.author}}
+          <span class="icon sky-leaf leaf-yonghu"></span> {{ list.author }}
         </div>
         <ul class="category">
-          <li class="category-item">{{list.category}}</li>
+          <li class="category-item">{{ list.category }}</li>
         </ul>
       </div>
     </div>
@@ -32,6 +32,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .item {
   display: flex;
@@ -46,6 +47,7 @@ export default {
   }
   .info {
     flex: 1;
+    padding: px2rem(5) 0;
     .title {
       font-size: px2rem(16);
       line-height: px2rem(30);
@@ -63,7 +65,7 @@ export default {
       -webkit-box-orient: vertical;
       padding-left: 0.05rem;
     }
-    .foot{
+    .foot {
       display: flex;
       overflow: hidden;
       line-height: px2rem(22);
@@ -79,7 +81,7 @@ export default {
       }
       .category {
         padding: 0 px2rem(2);
-        border:px2rem(1) solid rgb(139, 177, 194);
+        border: px2rem(1) solid rgb(139, 177, 194);
         font-size: px2rem(12);
         border-radius: px2rem(5);
         color: rgb(139, 177, 194);

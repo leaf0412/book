@@ -1,9 +1,16 @@
 <template>
   <div class="home">
-    <m-header :headtype="1"></m-header>
-    <m-nav></m-nav>
-    <m-swiper></m-swiper>
-    <m-list v-for="(item, index) in homeList" :list="item" :key="index"></m-list>
+    <m-down-scroll ref="downScroll"
+                   :parentPullUpState="pullUpState"
+                   :isStop="isStop"
+                   :onInfiniteLoad="getMore">
+      <m-header :headtype="1"></m-header>
+      <m-nav></m-nav>
+      <m-swiper></m-swiper>
+      <m-list v-for="(item, index) in homeList"
+              :list="item"
+              :key="index"></m-list>
+    </m-down-scroll>
   </div>
 </template>
 
@@ -12,20 +19,24 @@
 import MHeader from "@/components/header/header.vue";
 import MNav from "@/components/nav/nav.vue";
 import MSwiper from "@/components/swiper/swiper.vue";
+import MDownScroll from "@/components/scroll/pullUpReload.vue";
 import MList from "@/components/list/list.vue";
 import { homeList } from "@/interface/home.js";
 export default {
   name: "home",
   data() {
     return {
-      homeList: {}
-    }
+      homeList: {},
+      pullUpState: 0,
+      isStop: false
+    };
   },
   components: {
     MHeader,
     MNav,
     MSwiper,
-    MList
+    MList,
+    MDownScroll
   },
   mounted() {
     this.getList();
@@ -33,9 +44,21 @@ export default {
   methods: {
     async getList() {
       let { code, list } = await homeList();
-      alert(list);
       if (code === 0) {
         this.homeList = list;
+      }
+    },
+    async getMore() {
+      let pararms = {
+        page: 1
+      };
+      let { code, list } = await homeList(pararms);
+      if (code === 0) {
+        this.homeList.push(...list);
+        if(this.homeList.length >= 50 ) {
+          this.isStop = true;
+          this.pullUpState = 3;
+        }
       }
     }
   }
