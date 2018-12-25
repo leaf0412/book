@@ -1,6 +1,7 @@
 import axios from "@/config/axios";
 
-const apiUrl = "http://192.168.0.110:9090";
+const ip = "192.168.43.151";
+const apiUrl = `http://${ip}:9090`;
 
 const perfix = "/book";
 

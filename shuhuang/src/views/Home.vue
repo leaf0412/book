@@ -28,7 +28,8 @@ export default {
     return {
       homeList: {},
       pullUpState: 0,
-      isStop: false
+      isStop: false,
+      page: 1,
     };
   },
   components: {
@@ -50,12 +51,12 @@ export default {
     },
     async getMore() {
       let pararms = {
-        page: 1
+        page: ++this.page
       };
       let { code, list } = await homeList(pararms);
       if (code === 0) {
         this.homeList.push(...list);
-        if(this.homeList.length >= 50 ) {
+        if (this.homeList.length >= 50) {
           this.isStop = true;
           this.pullUpState = 3;
         }
