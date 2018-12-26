@@ -1,0 +1,25 @@
+{
+  "name": "koa-test",
+  "version": "1.0.0",
+  "description": "利用koa 编写接口",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon book.js"
+  },
+  "author": "sky~oh",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^7.1.3",
+    "koa": "^2.6.2",
+    "koa-body": "^4.0.4",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compose": "^4.1.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "mongoose": "^5.3.15"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

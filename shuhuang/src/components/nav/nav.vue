@@ -3,6 +3,7 @@
     <div class="menu">
       <div class="item"
            :class="`/${activePath}` === item.to && 'active'"
+           @click="goto(item)"
            v-for="(item, index) in menuList"
            :key="index">{{item.name}}</div>
     </div>
@@ -38,8 +39,13 @@ export default {
       ]
     };
   },
-  mounted() {},
-  computed: {}
+  methods: {
+    goto(item) {
+      this.$router.push({
+        path: item.to
+      });
+    }
+  }
 };
 </script>
 

@@ -7,18 +7,18 @@
     <footer class="load-more">
       <slot name="load-more">
         <div class="moreData-tip"
-             v-if="pullUpState==1">
-          <span class="moreData-tip-text">{{pullUpStateText.moreDataTxt}}</span>
+             v-if="pullUpState===1">
+          <span class="moreData-tip-text">{{ moreDataTxt }}</span>
         </div>
         <div class="loadingMoreData-tip"
-             v-if="pullUpState==2">
+             v-if="pullUpState===2">
           <span class="icon-loading"></span>
-          <span class="loadingMoreData-tip-text">{{pullUpStateText.loadingMoreDataTxt}}</span>
+          <span class="loadingMoreData-tip-text">{{ loadingMoreDataTxt }}</span>
         </div>
         <div class="noMoreData-tip"
-             v-if="pullUpState==3">
+             v-if="pullUpState===3">
           <span class="connectingLine"></span>
-          <span class="noMoreData-tip-text">{{pullUpStateText.noMoreDataTxt}}</span>
+          <span class="noMoreData-tip-text">{{ noMoreDataTxt }}</span>
           <span class="connectingLine"></span>
         </div>
       </slot>
@@ -28,8 +28,10 @@
 
 <script>
 export default {
+  name: "MUpScroll",
   props: {
     parentPullUpState: {
+      type: Number,
       default: 0
     },
     onInfiniteLoad: {
@@ -39,6 +41,18 @@ export default {
     isStop: {
       type: Boolean,
       default: false
+    },
+    moreDataTxt: {
+      type: String,
+      default: "上拉加载更多"
+    },
+    loadingMoreDataTxt: {
+      type: String,
+      default: "加载中..."
+    },
+    noMoreDataTxt: {
+      type: String,
+      default: "我是有底线的"
     }
   },
   data() {
@@ -46,12 +60,7 @@ export default {
       top: 0,
       startY: 0,
       pullUpState: 1, // 1:上拉加载更多, 2:加载中……, 3:我是有底线的
-      isLoading: false, // 是否正在加载
-      pullUpStateText: {
-        moreDataTxt: "上拉加载更多",
-        loadingMoreDataTxt: "加载中...",
-        noMoreDataTxt: "我是有底线的"
-      }
+      isLoading: false // 是否正在加载
     };
   },
   methods: {
@@ -74,7 +83,10 @@ export default {
         document.body.scrollTop;
       // 变量scrollHeight是滚动条的总高度
       let scrollHeight =
-        document.documentElement.clientHeight || document.body.scrollHeight;
+        // 屏幕可用工作区 高度
+        window.screen.availHeight ||
+        document.documentElement.clientHeight ||
+        document.body.scrollHeight;
       // 滚动条到底部的条件
       if (scrollTop + scrollHeight >= innerHeight) {
         if (this.pullUpState !== 3 && !this.isLoading) {
@@ -87,15 +99,22 @@ export default {
       this.pullUpState = 2;
       this.isLoading = true;
       await this.onInfiniteLoad();
-      !this.isStop && this.infiniteLoadDone();
+      if (this.isStop) {
+        this.pullUpState = 3;
+        this.isLoading = false;
+        return;
+      }
+      this.infiniteLoadDone();
     },
     infiniteLoadDone() {
-      this.pullUpState = 0;
+      this.pullUpState = 1;
       this.isLoading = false;
     }
   },
   watch: {
-    parentPullUpState(curVal) {
+    parentPullUpState(curVal, oldVal) {
+      console.log(oldVal)
+      console.log(curVal)
       this.pullUpState = curVal;
     }
   }
@@ -105,6 +124,12 @@ export default {
 <style scoped>
 .load-more {
   width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.load-more::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 .moreData-tip,
 .loadingMoreData-tip,
@@ -132,7 +157,7 @@ export default {
 }
 .connectingLine {
   display: inline-flex;
-  width: 150px;
+  width: 100px;
   height: 2px;
   background: #ddd;
   margin-left: 20px;
