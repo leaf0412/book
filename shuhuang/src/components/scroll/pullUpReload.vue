@@ -87,7 +87,7 @@ export default {
       this.pullUpState = 2;
       this.isLoading = true;
       await this.onInfiniteLoad();
-      !this.isStop && this.infiniteLoadDone()
+      !this.isStop && this.infiniteLoadDone();
     },
     infiniteLoadDone() {
       this.pullUpState = 0;
@@ -95,7 +95,7 @@ export default {
     }
   },
   watch: {
-    parentPullUpState(curVal, oldVal) {
+    parentPullUpState(curVal) {
       this.pullUpState = curVal;
     }
   }
