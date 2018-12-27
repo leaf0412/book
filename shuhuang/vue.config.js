@@ -1,4 +1,6 @@
+const isProduction = process.env.NOOE_ENV === "production";
 module.exports = {
+  baseUrl: isProduction ? "./" : "/",
   css: {
     loaderOptions: {
       sass: {
@@ -7,6 +9,7 @@ module.exports = {
       }
     }
   },
+  lintOnSave: isProduction,
   devServer: {
     disableHostCheck: true
   }

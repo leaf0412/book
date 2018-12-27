@@ -6,7 +6,7 @@
                  :onInfiniteLoad="getMore">
       <m-down-scroll ref="downScroll"
                      :defaultOffset="50"
-                     :onInfiniteLoad="getMore">
+                     :onInfiniteLoad="refresh">
         <m-header :headtype="1"></m-header>
         <m-nav></m-nav>
         <m-swiper></m-swiper>
@@ -20,45 +20,36 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import MHeader from "@/components/header/header.vue";
 import MNav from "@/components/nav/nav.vue";
 import MList from "@/components/list/list.vue";
-import { homeList } from "@/interface/home.js";
 export default {
   name: "home",
   data() {
-    return {
-      homeList: {},
-      isStop: false,
-      page: 1
-    };
+    return {};
   },
   components: {
     MHeader,
     MNav,
     MList
   },
+  computed: {
+    ...mapState({
+      homeList: state => state.home.homeList,
+      isStop: state => state.home.isStop
+    })
+  },
   mounted() {
-    this.getList();
+    this.updataHomeList();
   },
   methods: {
-    async getList() {
-      let { code, list } = await homeList();
-      if (code === 0) {
-        this.homeList = list;
-      }
+    ...mapActions(["updataHomeList"]),
+    async refresh() {
+      await this.updataHomeList("refresh");
     },
     async getMore() {
-      let pararms = {
-        page: ++this.page
-      };
-      let { code, list } = await homeList(pararms);
-      if (code === 0) {
-        this.homeList.unshift(...list);
-        if (this.homeList.length >= 50) {
-          this.isStop = true;
-        }
-      }
+      await this.updataHomeList();
     }
   }
 };
