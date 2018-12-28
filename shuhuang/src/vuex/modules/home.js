@@ -17,16 +17,15 @@ export default {
         page: ++state.page
       };
       const { code, list } = await homeList(params);
-      window.console.log(list);
       let result = state.homeList;
       if (code === 0) {
         if (refresh === data) {
           result.unshift(...list);
         } else {
+          if (result.length >= 50) return;
           result.push(...list);
         }
       }
-      window.console.log(result);
       commit("updataHomeList", result);
     }
   }
