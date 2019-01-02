@@ -30,10 +30,10 @@
 export default {
   name: "MUpScroll",
   props: {
-    parentPullUpState: {
-      type: Number,
-      default: 0
-    },
+    // parentPullUpState: {
+    //   type: Number,
+    //   default: 0
+    // },
     onInfiniteLoad: {
       type: Function,
       require: false
@@ -111,13 +111,7 @@ export default {
       this.isLoading = false;
     }
   },
-  watch: {
-    parentPullUpState(curVal, oldVal) {
-      console.log(oldVal)
-      console.log(curVal)
-      this.pullUpState = curVal;
-    }
-  }
+  watch: {}
 };
 </script>
 
