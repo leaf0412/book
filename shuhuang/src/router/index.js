@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "../views/home.vue";
+// import Home from "../views/home.vue";
 
 const routes = [
   {
@@ -19,12 +19,14 @@ const requireRouter = require.context("@/views/", false, /[A-Za-z]\w+.vue$/);
 
 requireRouter.keys().forEach(fileName => {
   const name = fileName.replace(/^\.\/(.*)\.\w+$/, "$1");
-  const component = resolve => require([`@/views/${name}`], resolve) 
-  let list = [{
-    path: `/${name}`,
-    name: `${name}`,
-    component
-  }];
+  const component = resolve => require([`@/views/${name}`], resolve);
+  let list = [
+    {
+      path: `/${name}`,
+      name: `${name}`,
+      component
+    }
+  ];
   router.addRoutes(list);
 });
 
