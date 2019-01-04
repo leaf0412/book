@@ -1,4 +1,3 @@
-// const ip = "120.79.8.251"
 const ip = "127.0.0.1"
 
 module.exports = {
