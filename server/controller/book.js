@@ -1,29 +1,12 @@
-const Router = require('koa-router')
-const Books = require('../databases/model/books')
-const router = new Router()
-const fs = require('fs')
-const path = require('path')
+const Router = require("koa-router");
+const Books = require("../databases/model/books");
+const router = new Router();
+const fs = require("fs");
+const path = require("path");
 
-router.prefix("/book")
+router.prefix("/book");
 
-const hotGetType = data => {
-  return new Promise((resolve, reject) => {
-    const { params, pageSize, skip, sort } = data;
-    Books.find(
-      params,
-      { bookid: 1, title: 1, author: 1, desc: 1, category: 1, pic: 1, _id: 0 },
-      { sort, limit: pageSize, skip },
-      (err, res) => {
-        if (err) return reject(err) && console.log(err);
-        setTimeout(()=>{
-          resolve(res);
-        }, 1000);
-      }
-    );
-  });
-};
-
-router.post("/hot", async function (ctx, next) {
+router.post("/hot", async function(ctx, next) {
   let { type, page = 1, pageSize = 10 } = ctx.request.body;
   page = parseInt(page);
   pageSize = parseInt(pageSize);
@@ -31,7 +14,7 @@ router.post("/hot", async function (ctx, next) {
   //-1 降序 1 升序
   let sort = { count: -1 };
   let params = {};
-  if (type) params.category = type
+  if (type) params.category = type;
   let doc = await hotGetType({ params, pageSize, skip, sort });
   if (doc) {
     ctx.body = {
@@ -132,31 +115,49 @@ router.get("/chapterDetail", async ctx => {
   }
 });
 
-const filefilter = (data) => {
+router.post("/upload", async (ctx, next) => {
+  // 上传单个文件
+  const file = ctx.request.files.file; // 获取上传文件
+  if (!file) return;
+  if (Array.isArray(file)) {
+    for (let data of file) {
+      filefilter(data);
+    }
+  } else {
+    filefilter(file);
+  }
+  return (ctx.body = {
+    msg: "上传成功！"
+  });
+});
+
+const hotGetType = data => {
+  return new Promise((resolve, reject) => {
+    const { params, pageSize, skip, sort } = data;
+    Books.find(
+      params,
+      { bookid: 1, title: 1, author: 1, desc: 1, category: 1, pic: 1, _id: 0 },
+      { sort, limit: pageSize, skip },
+      (err, res) => {
+        if (err) return reject(err) && console.log(err);
+        setTimeout(() => {
+          resolve(res);
+        }, 1000);
+      }
+    );
+  });
+};
+
+const filefilter = data => {
   // 创建可读流
   const reader = fs.createReadStream(data.path);
-  let filePath = path.join(__dirname, '../public/upload/') + `${Date.now() + data.name}`;
+  let filePath =
+    path.join(__dirname, "../public/upload/") + `${Date.now() + data.name}`;
   // 创建可写流
   const upStream = fs.createWriteStream(filePath);
   // 可读流通过管道写入可写流
   reader.pipe(upStream);
-}
-router.post('/upload', async (ctx, next) => {
-  // 上传单个文件
-  const file = ctx.request.files.file; // 获取上传文件
-  if (!file) return
-  if (Array.isArray(file)) {
-    for (let data of file) {
-      filefilter(data)
-    }
-  } else {
-    filefilter(file)
-  }
-  return ctx.body = {
-    msg: "上传成功！"
-  }
-})
-
+};
 
 const sendError = (ctx, err) => {
   ctx.body = {
