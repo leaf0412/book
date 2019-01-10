@@ -1,5 +1,6 @@
 const Router = require("koa-router");
 const Books = require("../databases/model/books");
+const { sendError } = require("../config/commin");
 const router = new Router();
 const fs = require("fs");
 const path = require("path");
@@ -157,14 +158,6 @@ const filefilter = data => {
   const upStream = fs.createWriteStream(filePath);
   // 可读流通过管道写入可写流
   reader.pipe(upStream);
-};
-
-const sendError = (ctx, err) => {
-  ctx.body = {
-    code: -1,
-    err: err.errmsg,
-    msg: "操作失败"
-  };
 };
 
 module.exports = router;

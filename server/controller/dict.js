@@ -1,5 +1,6 @@
 const Router = require("koa-router");
 const Dicts = require("../databases/model/dicts");
+const { sendError } = require("../config/commin");
 const router = new Router();
 
 router.prefix("/dict");
@@ -50,14 +51,6 @@ const add = data => {
       }
     });
   });
-};
-
-const sendError = (ctx, err) => {
-  ctx.body = {
-    code: -1,
-    err: err.errmsg,
-    msg: "操作失败"
-  };
 };
 
 module.exports = router;
