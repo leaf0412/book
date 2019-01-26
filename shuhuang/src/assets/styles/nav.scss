@@ -1,15 +1,17 @@
 .nav {
   padding: 0.2rem 0;
   box-sizing: border-box;
+  background: $headerBg;
   .menu {
     display: flex;
     justify-content: space-around;
     .item{
       line-height: 1rem;
       font-size: .45rem;
+      color: #fff;
       &.active {
-        color: #c33537;
-        border-bottom: 2px solid #c33537;
+        color: $navColor;
+        border-bottom: 2px solid $navColor;
       }
     }
   }

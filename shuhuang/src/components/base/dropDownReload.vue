@@ -108,14 +108,9 @@ export default {
         if (this.top >= this.defaultOffset) {
           // do refresh
           this.refresh();
-          this.isRefreshing = true;
-          // console.log(`do refresh`);
         } else {
           // cancel refresh
-          this.isRefreshing = false;
-          this.isDropDown = false;
-          this.dropDownState = 0;
-          this.top = 0;
+          this.refreshDone();
         }
       }
     },
@@ -127,39 +122,38 @@ export default {
     refreshDone() {
       this.isRefreshing = false;
       this.isDropDown = false;
-      this.dropDownState = 1;
-      this.top = "-" + this.defaultOffset;
+      this.dropDownState = 0;
+      this.top = 0;
     }
   }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .loadMoudle {
   width: 100%;
   height: 100%;
   -webkit-overflow-scrolling: touch; /* ios5+ */
+  .load-more {
+    width: 100%;
+    transition-duration: 200ms;
+  }
+  .icon-loading {
+    display: inline-flex;
+    padding: px2rem(10);
+    background: #c0c0c0;
+    margin-right: px2rem(5);
+    animation: rotating 2s linear infinite;
+  }
+  .drow-tip,
+  .loading-tip,
+  .refresh-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
-.load-more {
-  width: 100%;
-  transition-duration: 200ms;
-}
-
-.drow-tip,
-.loading-tip,
-.refresh-tip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.loadMoudle .icon-loading {
-  display: inline-flex;
-  padding: 10px;
-  background: #c0c0c0;
-  margin-right: 5px;
-  animation: rotating 2s linear infinite;
-}
 @keyframes rotating {
   0% {
     transform: rotate(0deg);

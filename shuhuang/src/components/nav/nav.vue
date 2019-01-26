@@ -2,7 +2,7 @@
   <div class="nav">
     <div class="menu">
       <div class="item"
-           :class="`/${activePath}` === item.to && 'active'"
+           :class="`${activePath}` === item.to && 'active'"
            @click="goto(item)"
            v-for="(item, index) in menuList"
            :key="index">{{item.name}}</div>
@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      activePath: this.$route.name,
+      activePath: this.$route.path,
       menuList: [
         {
           id: 1,
@@ -28,13 +28,13 @@ export default {
         },
         {
           id: 3,
-          name: "免费",
-          to: "/free"
+          name: "书架",
+          to: "/bookrack"
         },
         {
           id: 4,
-          name: "书架",
-          to: "/bookrack"
+          name: "搜索",
+          to: "/search"
         }
       ]
     };

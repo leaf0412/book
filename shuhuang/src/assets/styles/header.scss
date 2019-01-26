@@ -1,26 +1,47 @@
 .header {
-  .header-wrapper{
-    padding: 0.3rem;
-    background: #149dc5;
+  .header-wrapper {
+    padding: px2rem(12);
+    background: $headerBg;
     display: flex;
     justify-content: flex-start;
-    border-bottom: 1px solid #d4d4d4;
+    // border-bottom: 1px solid #d4d4d4;
     .left {
       flex: 1;
       .logo {
-        width: 2.5rem;
-        height: 1rem;
-        background-repeat:no-repeat;
-        background-size: 100% 100%; 
+        width: px2rem(80);
+        height: px2rem(37.5);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
+      .content {
+        // display: flex;
+        // justify-content: flex-start;
+        line-height: px2rem(37.5);
+        height: px2rem(37.5);
+        .icon{
+          display: inline-block;
+          font-size: px2rem(24);
+          color: #fff;
+          transform: rotate(180deg);
+          transform-origin: 50% 40%;
+        }
+        .title {
+          display: inline-block;
+          width: px2rem(300);
+          text-align: center;
+          color: #fff;
+          font-size: px2rem(16);
+        @include ell();
+        }
       }
     }
     .right {
-      flex: 0 2.5rem;
+      flex: 0 auto;
       display: flex;
-      line-height: 1rem;
-      justify-content: space-around;
+      line-height: px2rem(37.5);
+      justify-content: flex-end;
       .icon {
-        font-size: .6rem;
+        font-size: px2rem(24);
         color: #fff;
       }
     }

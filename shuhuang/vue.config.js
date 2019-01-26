@@ -9,8 +9,13 @@ module.exports = {
       }
     }
   },
-  lintOnSave: isProduction,
-  devServer: {
-    disableHostCheck: true
-  }
+  configureWebpack: {
+    // externals: {
+    //   vue: "Vue",
+    //   vuex: "Vuex",
+    //   "vue-router": "VueRouter",
+    //   axios: "axios"
+    // }
+  },
+  lintOnSave: isProduction
 };

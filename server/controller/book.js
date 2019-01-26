@@ -1,6 +1,6 @@
 const Router = require("koa-router");
 const Books = require("../databases/model/books");
-const { sendError } = require("../config/commin");
+const { sendError } = require("../config/common");
 const router = new Router();
 const fs = require("fs");
 const path = require("path");
@@ -30,26 +30,25 @@ router.post("/hot", async function(ctx, next) {
 router.get("/detail", async (ctx, next) => {
   let { bookid } = ctx.query;
   if (bookid) {
-    await Books.findOne(
+    let res = await Books.findOne(
       { bookid },
       {
         _id: 0,
+        __v: 0,
         sectionList: { $slice: -10 },
         "sectionList._id": 0,
         "sectionList.content": 0
-      },
-      (err, doc) => {
-        if (err) {
-          sendError(ctx, err);
-        } else {
-          ctx.body = {
-            code: 0,
-            msg: "操作成功",
-            list: doc
-          };
-        }
       }
     );
+    if (res) {
+      ctx.body = {
+        code: 0,
+        msg: "操作成功",
+        list: res
+      };
+    } else {
+      sendError(ctx, { errmsg: "暂无数据" });
+    }
   } else {
     sendError(ctx, { errmsg: "参数不能为空" });
   }
@@ -58,22 +57,24 @@ router.get("/detail", async (ctx, next) => {
 router.get("/allChapter", async ctx => {
   let { bookid } = ctx.query;
   if (bookid) {
-    await Books.findOne(
+    let res = await Books.findOne(
       { bookid },
-      { _id: 0, "sectionList.id": 1, "sectionList.title": 1 },
+      { _id: 0, sectionList: 1, "sectionList.id": 1, "sectionList.title": 1 },
       (err, doc) => {
-        if (err) {
-          sendError(ctx, err);
-        } else {
-          doc = doc ? doc.sectionList : doc;
-          ctx.body = {
-            code: 0,
-            msg: "操作成功",
-            list: doc
-          };
+        if(doc) {
+          console.log(doc)
         }
       }
     );
+    if (res) {
+      ctx.body = {
+        code: 0,
+        msg: "操作成功",
+        list: res.sectionList
+      };
+    } else {
+      sendError(ctx, { errmsg: "暂无数据" });
+    }
   } else {
     sendError(ctx, { errmsg: "参数不能为空" });
   }
@@ -82,35 +83,22 @@ router.get("/allChapter", async ctx => {
 router.get("/chapterDetail", async ctx => {
   let { id } = ctx.query;
   if (id) {
-    await Books.findOne(
+    let res = await Books.findOne(
       { "sectionList.id": id },
-      { _id: 0, "sectionList.$": 1, count: 1 },
-      async (err, doc) => {
-        if (err) {
-          sendError(ctx, err);
-        } else {
-          if (doc) {
-            ctx.body = {
-              code: 0,
-              msg: "操作成功",
-              list: doc.sectionList[0]
-            };
-            let count = parseInt(doc.count);
-            count++;
-            await Books.updateOne(
-              { "sectionList.id": id },
-              { $set: { count } }
-            );
-          } else {
-            ctx.body = {
-              code: 0,
-              msg: "查无此章节",
-              list: doc
-            };
-          }
-        }
-      }
+      { _id: 0, "sectionList.$": 1, count: 1 }
     );
+    if (res) {
+      ctx.body = {
+        code: 0,
+        msg: "操作成功",
+        list: res.sectionList[0]
+      };
+      let count = parseInt(res.count);
+      count++;
+      await Books.updateOne({ "sectionList.id": id }, { $set: { count } });
+    } else {
+      sendError(ctx, { msg: "查无此章节" });
+    }
   } else {
     sendError(ctx, { errmsg: "参数不能为空" });
   }
@@ -119,7 +107,9 @@ router.get("/chapterDetail", async ctx => {
 router.post("/upload", async (ctx, next) => {
   // 上传单个文件
   const file = ctx.request.files.file; // 获取上传文件
-  if (!file) return;
+  if (!file) {
+    sendError(ctx, { errmsg: "参数不能为空" });
+  };
   if (Array.isArray(file)) {
     for (let data of file) {
       filefilter(data);
@@ -127,9 +117,10 @@ router.post("/upload", async (ctx, next) => {
   } else {
     filefilter(file);
   }
-  return (ctx.body = {
+  ctx.body = {
+    code: 0,
     msg: "上传成功！"
-  });
+  };
 });
 
 const hotGetType = data => {

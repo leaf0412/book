@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import "swiper/dist/css/swiper.css";
-import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
   name: "BackTop",
   data() {
@@ -51,21 +49,21 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .back-top {
   position: fixed;
-  bottom: 10px;
-  right: 10px;
+  bottom: px2rem(10);
+  right: px2rem(10);
   z-index: 100;
-}
-.back-top .btn {
-  display: inline-block;
-  padding: 10px;
-  text-align: center;
-  border-radius: 50%;
-  background: #8bb1c2;
-  color: #fff;
-  font-size: 12px;
-  cursor: pointer;
+  .btn {
+    display: inline-block;
+    padding: px2rem(10);
+    text-align: center;
+    border-radius: 50%;
+    background: #8bb1c2;
+    color: #fff;
+    font-size: px2rem(10);
+    cursor: pointer;
+  }
 }
 </style>

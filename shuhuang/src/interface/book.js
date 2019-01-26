@@ -3,8 +3,8 @@ import config from "@/config";
 
 const perfix = "/book";
 
-export const getBooksList = params => {
+export const getBook = params => {
   return axios
-    .post(`${config.apiUrl}${perfix}/hot`, params)
+    .get(`${config.apiUrl}${perfix}/detail`, { params })
     .then(res => res.data);
 };

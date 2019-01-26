@@ -1,10 +1,12 @@
-import { homeList } from "@/interface/home.js";
-const refresh = "refresh";
+import { getBooksList } from "@/interface/home.js";
 
 export default {
   state: {
     homeList: [],
-    page: 0
+    isStop: false,
+    refresh: "refresh",
+    page: 0,
+    pageSize: 10
   },
   mutations: {
     updataHomeList(state, list) {
@@ -13,16 +15,16 @@ export default {
   },
   actions: {
     async updataHomeList({ commit, state }, data) {
+      let result = state.homeList;
+      if (result.length >= 50) state.isStop = true;
       let params = {
         page: ++state.page
       };
-      const { code, list } = await homeList(params);
-      let result = state.homeList;
+      const { code, list } = await getBooksList(params);
       if (code === 0) {
-        if (refresh === data) {
+        if (state.refresh === data) {
           result.unshift(...list);
         } else {
-          if (result.length >= 50) return;
           result.push(...list);
         }
       }

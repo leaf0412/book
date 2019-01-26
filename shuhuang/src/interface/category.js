@@ -1,10 +1,10 @@
 import axios from "@/plugin/axios";
 import config from "@/config";
 
-const perfix = "/book";
+const perfix = "/dict";
 
-export const getBooksList = params => {
+export const categoryList = params => {
   return axios
-    .post(`${config.apiUrl}${perfix}/hot`, params)
+    .post(`${config.apiUrl}${perfix}/all`, params)
     .then(res => res.data);
 };

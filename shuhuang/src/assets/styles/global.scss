@@ -1,9 +1,24 @@
 $fontSize: 37.5;
 
 $color: rgb(63, 63, 63);
+$headerBg: #149dc5;
+$navColor: #084094;
+
+// btn
+$btn_default_bg: #fff;
+$btn_primary_bg: #fc6e51;
 
 @function px2rem($px) {
   @return ($px / $fontSize) + rem;
+}
+
+@mixin tap-color($color, $opacity: 0.5) {
+  background-color: $color;
+  &:active {
+    background-color: desaturate($color, 50%);; // sass 颜色函数
+    // background-color: $color * $opacity; // sass 颜色函数
+    // background-color: rgba($color, $opacity); // sass 颜色函数
+  }
 }
 
 @mixin center() {
@@ -11,9 +26,55 @@ $color: rgb(63, 63, 63);
   justify-content: center;
   align-content: center;
 }
+
+//多行文本溢出
+@mixin mult_line_ellipsis($num: 3) {
+  overflow: hidden;
+  text-overflow: ellipsis; //文本溢出显示省略号
+  display: -webkit-box;
+  -webkit-line-clamp: $num;
+  -webkit-box-orient: vertical;
+}
+
 //单行隐藏
 @mixin ell() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+// 动画
+.zoom-enter-active,
+.zoom-leave-active {
+  transition: all 0.3s;
+  transform: rotateY(0deg);
+}
+.zoom-enter,
+.zoom-leave-to {
+  transform: rotateY(90deg);
+}
+
+.shift-left-enter-active,
+.shift-left-leave-active {
+  transition: all 0.3s;
+  width: 100%;
+  position: absolute;
+  left: 0;
+}
+.shift-left-enter,
+.shift-left-leave-to {
+  left: 100%;
+}
+
+.shift-right-enter-active,
+.shift-right-leave-active {
+  transition: all 0.3s;
+  width: 100%;
+  position: absolute;
+  right: 0;
+}
+
+.shift-right-enter,
+.shift-right-leave-to {
+  right: 100%;
 }

@@ -111,35 +111,47 @@ export default {
       this.isLoading = false;
     }
   },
-  watch: {}
+  watch: {
+    isStop() {
+      this.pullUpState = 1;
+    }
+  }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .load-more {
   width: 100%;
   height: 100%;
   overflow: hidden;
-}
-.load-more::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-.moreData-tip,
-.loadingMoreData-tip,
-.noMoreData-tip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 150px;
-}
-.loadMoudle .icon-loading {
-  display: inline-flex;
-  width: 35px;
-  height: 35px;
-  background: #c0c0c0;
-  margin-right: 5px;
-  animation: rotating 2s linear infinite;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  .moreData-tip,
+  .loadingMoreData-tip,
+  .noMoreData-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: px2rem(150);
+  }
+  .icon-loading {
+    display: inline-flex;
+    width: px2rem(35);
+    height: px2rem(35);
+    background: #c0c0c0;
+    margin-right: px2rem(5);
+    animation: rotating 2s linear infinite;
+  }
+  .connectingLine {
+    display: inline-flex;
+    width: px2rem(100);
+    height: px2rem(2);
+    background: #ddd;
+    margin-left: px2rem(20);
+    margin-right: px2rem(20);
+  }
 }
 @keyframes rotating {
   0% {
@@ -148,13 +160,5 @@ export default {
   100% {
     transform: rotate(1turn);
   }
-}
-.connectingLine {
-  display: inline-flex;
-  width: 100px;
-  height: 2px;
-  background: #ddd;
-  margin-left: 20px;
-  margin-right: 20px;
 }
 </style>

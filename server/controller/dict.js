@@ -1,6 +1,6 @@
 const Router = require("koa-router");
 const Dicts = require("../databases/model/dicts");
-const { sendError } = require("../config/commin");
+const { sendError } = require("../config/common");
 const router = new Router();
 
 router.prefix("/dict");
@@ -25,15 +25,13 @@ router.post("/add", async function(ctx, next) {
   }
 });
 
-router.get("/all", async function(ctx, next) {
-  await Dicts.find({}, {_id: 0}, (err, res) => {
-    if(err) return sendError(ctx, err); 
-    ctx.body = {
-      code: 0,
-      msg: "操作成功",
-      list: res
-    };
-  })
+router.post("/all", async function(ctx, next) {
+  let result = await find();
+  ctx.body = {
+    code: 0,
+    list: result,
+    msg: "操作成功"
+  };
 });
 
 const add = data => {
@@ -49,6 +47,15 @@ const add = data => {
           resolve({ successMsg: "操作成功" });
         });
       }
+    });
+  });
+};
+
+const find = data => {
+  return new Promise(resolve => {
+    Dicts.find({}, { _id: 0 }, (err, res) => {
+      if (err) return resolve(err);
+      resolve(res);
     });
   });
 };

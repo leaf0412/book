@@ -1,5 +1,5 @@
 <template>
-  <div class="item">
+  <div class="item" @click="goto(list)">
     <div class="img"
          :style="{ backgroundImage: 'url(' + emtry + ')' }"></div>
     <div class="info">
@@ -29,6 +29,16 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  methods: {
+    goto(item) {
+      this.$router.push({
+        path: "/book",
+        query: {
+          bookid: item.bookid
+        }
+      })
+    }
   }
 };
 </script>
@@ -38,6 +48,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   padding: px2rem(10);
+  background: #fff;
   .img {
     margin: px2rem(10);
     flex: 0 px2rem(80);
