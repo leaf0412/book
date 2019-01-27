@@ -55,6 +55,11 @@ if (addEventListener in document) {
   );
 }
 
+/* toast 组件 */
+import toast from "./components/toast/toast.js";
+
+Vue.use(toast);
+
 Vue.config.productionTip = false;
 
 new Vue({

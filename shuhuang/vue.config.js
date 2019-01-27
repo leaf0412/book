@@ -1,6 +1,6 @@
-const isProduction = process.env.NOOE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production";
 module.exports = {
-  baseUrl: isProduction ? "./" : "/",
+  publicPath: isProduction ? "./" : "/",
   css: {
     loaderOptions: {
       sass: {
@@ -10,12 +10,12 @@ module.exports = {
     }
   },
   configureWebpack: {
-    // externals: {
-    //   vue: "Vue",
-    //   vuex: "Vuex",
-    //   "vue-router": "VueRouter",
-    //   axios: "axios"
-    // }
+    externals: {
+      vue: "Vue",
+      vuex: "Vuex",
+      "vue-router": "VueRouter",
+      axios: "axios"
+    }
   },
   lintOnSave: isProduction
 };
