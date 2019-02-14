@@ -7,7 +7,7 @@ const path = require("path");
 
 router.prefix("/book");
 
-router.post("/hot", async function(ctx, next) {
+router.post("/hot", async function (ctx, next) {
   let { type, page = 1, pageSize = 10 } = ctx.request.body;
   page = parseInt(page);
   pageSize = parseInt(pageSize);
@@ -35,7 +35,7 @@ router.get("/detail", async (ctx, next) => {
       {
         _id: 0,
         __v: 0,
-        sectionList: { $slice: -10 },
+        sectionList: { $slice: 10 },
         "sectionList._id": 0,
         "sectionList.content": 0
       }
@@ -55,16 +55,13 @@ router.get("/detail", async (ctx, next) => {
 });
 
 router.get("/allChapter", async ctx => {
-  let { bookid } = ctx.query;
+  let { bookid, page = 0, pageSize = 10 } = ctx.query;
+  let skip = parseInt(page) * parseInt(pageSize)
+  let limit = parseInt(pageSize)
   if (bookid) {
     let res = await Books.findOne(
       { bookid },
-      { _id: 0, sectionList: 1, "sectionList.id": 1, "sectionList.title": 1 },
-      (err, doc) => {
-        if(doc) {
-          console.log(doc)
-        }
-      }
+      { _id: 0, sectionList: { $slice: [skip, limit] }, "sectionList.id": 1, "sectionList.title": 1 }
     );
     if (res) {
       ctx.body = {
@@ -97,7 +94,7 @@ router.get("/chapterDetail", async ctx => {
       count++;
       await Books.updateOne({ "sectionList.id": id }, { $set: { count } });
     } else {
-      sendError(ctx, { msg: "查无此章节" });
+      sendError(ctx, { errmsg: "查无此章节" });
     }
   } else {
     sendError(ctx, { errmsg: "参数不能为空" });

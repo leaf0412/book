@@ -1,5 +1,7 @@
 <template>
-  <div class="toast" v-html="mes" :class="[position]"></div>
+  <div class="toast"
+       v-html="mes"
+       :class="[position]"></div>
 </template>
 
 <script>
@@ -11,7 +13,7 @@ export default {
     },
     mes: String
   }
-}
+};
 </script>
 
 

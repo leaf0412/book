@@ -1,7 +1,7 @@
 const ip = "127.0.0.1"
 
 module.exports = {
-  databases: `mongodb://admin:123456@${ip}:27017/admin`,
+  databases: `mongodb://admin:admin@${ip}:27017/admin`,
   port: 9090,
   ip: "0.0.0.0",
   // 跨域配置

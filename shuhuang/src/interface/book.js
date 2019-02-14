@@ -8,3 +8,9 @@ export const getBook = params => {
     .get(`${config.apiUrl}${perfix}/detail`, { params })
     .then(res => res.data);
 };
+
+export const getChapterDetail = params => {
+  return axios
+    .get(`${config.apiUrl}${perfix}/chapterDetail`, { params })
+    .then(res => res.data);
+};

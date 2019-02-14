@@ -1,5 +1,7 @@
 $fontSize: 37.5;
 
+$primary: #fc6e51;
+
 $color: rgb(63, 63, 63);
 $headerBg: #149dc5;
 $navColor: #084094;
@@ -25,6 +27,20 @@ $btn_primary_bg: #fc6e51;
   display: flex;
   justify-content: center;
   align-content: center;
+}
+
+// 1px 下边框
+@mixin border-bottom-1px($color){
+  position: relative;
+  &:after{
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      border-top: 1px solid $color;
+      content: ' ';
+  }
 }
 
 //多行文本溢出

@@ -25,7 +25,11 @@ export default {
         if (state.refresh === data) {
           result.unshift(...list);
         } else {
-          result.push(...list);
+          if (list.length > 0) {
+            result.push(...list);
+          } else {
+            state.isStop = true;
+          }
         }
       }
       commit("updataHomeList", result);

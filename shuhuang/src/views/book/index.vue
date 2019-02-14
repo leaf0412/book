@@ -1,7 +1,7 @@
 <template>
   <div class="book">
     <m-header :title="bookInfo.title"></m-header>
-    
+
     <!-- 书籍的信息 -->
     <div class="top-warpper">
       <div class="bookInfo">
@@ -14,8 +14,10 @@
         </div>
       </div>
       <div class="action">
-        <button class="btn default add">加入书架</button>
-        <button class="btn primary read">阅读</button>
+        <button @click="_add"
+                class="btn default add">加入书架</button>
+        <button @click="_read"
+                class="btn primary read">阅读</button>
       </div>
       <div class="desc">
         <span class="text">内容简介：</span>
@@ -27,11 +29,13 @@
               v-show="show">{{toggle}}</span>
       </div>
     </div>
-    
+
     <!-- 书籍最新章节 -->
     <div class="now">
       <div class="title">目录</div>
-      <book-list v-for="(item, index) in bookInfo.sectionList" :key="index" :list="item"></book-list>
+      <book-list v-for="(item, index) in bookInfo.sectionList"
+                 :key="index"
+                 :list="item"></book-list>
     </div>
 
   </div>
@@ -40,7 +44,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import MHeader from "@/components/header/header.vue";
-import BookList from "@/components/book-list/book-list.vue"
+import BookList from "@/components/book-list/book-list.vue";
 
 export default {
   name: "book",
@@ -80,9 +84,23 @@ export default {
   methods: {
     ...mapActions(["getBook"]),
     _getBook() {
-      let { bookid } = this.$route.query;
-      this.show = true;
-      this.getBook({ bookid });
+      let book = this.$route.query;
+      if (book.bookid) {
+        this.getBook(book);
+        this.show = true;
+      }
+    },
+    _add() {
+      const option = {
+        mes: "加入书架成功"
+      };
+      this.$toast(option);
+    },
+    _read() {
+      const option = {
+        mes: "进行阅读"
+      };
+      this.$toast(option);
     },
     lookMore() {
       this.show = false;
@@ -90,8 +108,7 @@ export default {
   },
   watch: {
     $route() {
-      let { bookid } = this.$route.query;
-      if (bookid) this._getBook();
+      this._getBook();
     }
   }
 };
