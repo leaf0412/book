@@ -1,11 +1,9 @@
 <template>
   <transition name="shift-right">
     <div class="search-warpper">
-      <m-layout>
         <div class="search-box">
           <input type="text">
         </div>
-      </m-layout>
     </div>
   </transition>
 </template>

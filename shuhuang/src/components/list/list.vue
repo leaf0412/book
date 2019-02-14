@@ -49,6 +49,10 @@ export default {
   justify-content: flex-start;
   padding: px2rem(10);
   background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+  &:last-child{
+    border-bottom: none;
+  }
   .img {
     margin: px2rem(10);
     flex: 0 px2rem(80);

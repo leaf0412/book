@@ -1,7 +1,6 @@
 <template>
   <transition name="shift-left">
     <div class="bookrack">
-      <m-layout>
         <ul class="top-wrapper">
           <li class="item"
               :class="menuActive === item.type ? 'active' : ''"
@@ -10,7 +9,6 @@
             {{item.name}}
           </li>
         </ul>
-      </m-layout>
     </div>
   </transition>
 </template>

@@ -1,44 +1,45 @@
 <template>
-  <div class="book">
-    <m-header :title="bookInfo.title"></m-header>
+  <transition name="left">
+    <div class="book">
+      <m-header :title="bookInfo.title"></m-header>
 
-    <!-- 书籍的信息 -->
-    <div class="top-warpper">
-      <div class="bookInfo">
-        <div :style="{ backgroundImage: 'url(' + bookInfo.pic +')' }"
-             class="img"></div>
-        <div class="info">
-          <div class="item title">{{bookInfo.title}}</div>
-          <div class="item author">{{bookInfo.author}}</div>
-          <div class="item">{{bookInfo.category}} - {{bookInfo.isover}}</div>
+      <!-- 书籍的信息 -->
+      <div class="top-warpper">
+        <div class="bookInfo">
+          <div :style="{ backgroundImage: 'url(' + bookInfo.pic +')' }"
+               class="img"></div>
+          <div class="info">
+            <div class="item title">{{bookInfo.title}}</div>
+            <div class="item author">{{bookInfo.author}}</div>
+            <div class="item">{{bookInfo.category}} - {{bookInfo.isover}}</div>
+          </div>
+        </div>
+        <div class="action">
+          <button @click="_add"
+                  class="btn default add">加入书架</button>
+          <button @click="_read"
+                  class="btn primary read">阅读</button>
+        </div>
+        <div class="desc">
+          <span class="text">内容简介：</span>
+          <span class="content">
+            {{desc}}
+          </span>
+          <span class=""
+                @click="lookMore"
+                v-show="show">{{toggle}}</span>
         </div>
       </div>
-      <div class="action">
-        <button @click="_add"
-                class="btn default add">加入书架</button>
-        <button @click="_read"
-                class="btn primary read">阅读</button>
-      </div>
-      <div class="desc">
-        <span class="text">内容简介：</span>
-        <span class="content">
-          {{desc}}
-        </span>
-        <span class=""
-              @click="lookMore"
-              v-show="show">{{toggle}}</span>
+
+      <!-- 书籍最新章节 -->
+      <div class="now">
+        <div class="title">目录</div>
+        <book-list v-for="(item, index) in bookInfo.sectionList"
+                   :key="index"
+                   :list="item"></book-list>
       </div>
     </div>
-
-    <!-- 书籍最新章节 -->
-    <div class="now">
-      <div class="title">目录</div>
-      <book-list v-for="(item, index) in bookInfo.sectionList"
-                 :key="index"
-                 :list="item"></book-list>
-    </div>
-
-  </div>
+  </transition>
 </template>
 
 <script>

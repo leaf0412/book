@@ -1,4 +1,4 @@
-let pathname = '/api';
+let pathname = '';
 let apiUrl = '';
 // 开发环境
 if (process.env.NODE_ENV === 'development') {

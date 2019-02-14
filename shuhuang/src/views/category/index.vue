@@ -1,7 +1,6 @@
 <template>
   <transition name="shift-right">
     <div class="category">
-      <m-layout>
         <ul class="wrapper">
           <li class="content"
               @click="goto(item)"
@@ -12,7 +11,6 @@
             </div>
           </li>
         </ul>
-      </m-layout>
     </div>
   </transition>
 </template>
@@ -52,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .category {
-  height: 100%;
+  // height: 100%;
   .wrapper {
     .content {
       display: flex;

@@ -4,7 +4,6 @@
       <m-up-scroll ref="upScroll"
                    :isStop="isStop"
                    :onInfiniteLoad="getMore">
-        <m-layout>
           <m-down-scroll ref="downScroll"
                          :defaultOffset="50"
                          :onInfiniteLoad="_refresh">
@@ -12,7 +11,6 @@
                     :list="item"
                     :key="index"></m-list>
           </m-down-scroll>
-        </m-layout>
       </m-up-scroll>
     </div>
   </transition>
