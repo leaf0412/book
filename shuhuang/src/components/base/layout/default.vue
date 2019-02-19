@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <template v-if="show">
-      <m-header :headType="headType"></m-header>
-      <m-nav :activePath="activePath"
-             :list="list"></m-nav>
-      <!-- <slot></slot> -->
-    </template>
+  <div v-if="show">
+    <m-header :headType="headType"></m-header>
+    <m-nav :activePath="activePath"
+           :list="list"></m-nav>
+    <!-- <slot></slot> -->
   </div>
 </template>
 

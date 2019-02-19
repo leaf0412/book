@@ -189,7 +189,7 @@ export default {
         if (this.bookinfo.sequence === 0) {
           this.$toast({ mes: "已经是第一章了" });
         } else {
-          this.$router.push({
+          this.$router.replace({
             path: "/bookContent",
             query: {
               id: parseInt(this.bookinfo.id) - 1
@@ -203,7 +203,7 @@ export default {
     },
     nextPage() {
       if (this.bookinfo) {
-        this.$router.push({
+        this.$router.replace({
           path: "/bookContent",
           query: {
             id: parseInt(this.bookinfo.id) + 1
