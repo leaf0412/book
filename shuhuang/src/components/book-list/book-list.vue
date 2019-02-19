@@ -50,6 +50,7 @@ export default {
   padding: px2rem(10) 0;
   .title {
     font-size: px2rem(16);
+    height: px2rem(20);
     width: px2rem(250);
     @include ell();
   }

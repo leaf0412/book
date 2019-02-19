@@ -14,12 +14,6 @@
             <div class="item">{{bookInfo.category}} - {{bookInfo.isover}}</div>
           </div>
         </div>
-        <div class="action">
-          <button @click="_add"
-                  class="btn default add">加入书架</button>
-          <button @click="_read"
-                  class="btn primary read">阅读</button>
-        </div>
         <div class="desc">
           <span class="text">内容简介：</span>
           <span class="content">
@@ -90,18 +84,6 @@ export default {
         this.show = true;
       }
     },
-    _add() {
-      const option = {
-        mes: "加入书架成功"
-      };
-      this.$toast(option);
-    },
-    _read() {
-      const option = {
-        mes: "进行阅读"
-      };
-      this.$toast(option);
-    },
     lookMore() {
       this.show = false;
     }
@@ -114,7 +96,6 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-@import "../../assets/styles/button.scss";
 .book {
   .top-warpper {
     padding: px2rem(10);
@@ -141,11 +122,8 @@ export default {
         }
       }
     }
-    .action {
-      margin: px2rem(20) 0;
-      text-align: center;
-    }
     .desc {
+      margin-top: px2rem(20);
       font-size: px2rem(14);
       line-height: px2rem(20);
       .text {
