@@ -4,11 +4,13 @@ export default {
     buttonText: "",
     bookid: "",
     title: "",
-    content: ""
+    content: "",
+    bookinfo: {}
   },
   mutations: {
     getBookContent(state, data) {
       state.title = data.title;
+      state.bookinfo = data;
       state.content = data.content;
     },
     changeButtonText(state, data) {

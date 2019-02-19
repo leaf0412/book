@@ -1,7 +1,8 @@
 <template>
-  <div class="book-list" @click="goto(list)">
+  <div class="book-list"
+       @click="goto(list)">
     <div class="title">{{list.title}}</div>
-    <div class="time">{{time}}</div>
+    <!-- <div class="time">{{time}}</div> -->
   </div>
 </template>
 
@@ -18,11 +19,11 @@ export default {
       let time = "";
       let listTime = this.list.time;
       if (listTime) {
-        let date = new Date(listTime); 
+        let date = new Date(listTime);
         let YY = date.getFullYear();
         let MM = date.getMonth() + 1;
         let DD = date.getDate();
-        time = YY + "-" + MM + "-" + DD;  
+        time = YY + "-" + MM + "-" + DD;
       }
       return time;
     }
@@ -37,7 +38,7 @@ export default {
         query: {
           id: item.id
         }
-      })
+      });
     }
   }
 };

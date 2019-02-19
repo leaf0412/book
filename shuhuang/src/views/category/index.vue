@@ -58,7 +58,7 @@ export default {
       position: relative;
       padding: px2rem(20);
       margin: px2rem(10);
-      background: linear-gradient(to bottom right, #149dc5, #8bb1c2);
+      background: linear-gradient(to bottom right, #ef8772, #fc6e51);
       &::after {
         content: "1";
         position: absolute;

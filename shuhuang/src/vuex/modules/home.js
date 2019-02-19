@@ -30,6 +30,9 @@ export default {
           } else {
             state.isStop = true;
           }
+          if (list.length < state.pageSize) {
+            state.isStop = true;
+          }
         }
       }
       commit("updataHomeList", result);

@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
+Vue.use(VueRouter);
+
 const routes = [
   {
     path: "/",
@@ -11,12 +13,8 @@ const routes = [
 const router = new VueRouter({
   mode: "hash",
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition;
-    } else {
-      return { x: 0, y: 0 };
-    }
+  scrollBehavior() {
+    return { x: 0, y: 0 };
   }
 });
 
@@ -40,8 +38,6 @@ requireRouter.keys().forEach(fileName => {
   ];
   router.addRoutes(list);
 });
-
-Vue.use(VueRouter);
 
 router.beforeEach((to, from, next) => {
   to.meta.title && (document.title = to.meta.title);
