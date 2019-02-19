@@ -68,12 +68,11 @@ export default {
       let str = "";
       if (this.bookInfo.desc) {
         let { desc } = this.bookInfo;
+        str = desc;
         if (this.show) {
           if (desc.length >= 60) {
             str = desc.substring(0, 60);
           }
-        } else {
-          str = desc;
         }
       }
       return str;
@@ -83,11 +82,11 @@ export default {
     this._getBook();
   },
   methods: {
-    ...mapActions(["getBook"]),
+    ...mapActions(["getBooks"]),
     _getBook() {
       let book = this.$route.query;
       if (book.bookid) {
-        this.getBook(book);
+        this.getBooks(book);
         this.show = true;
       }
     },

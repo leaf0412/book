@@ -10,10 +10,11 @@
           </div>
           <div class="right">
             <button @click="_addBookrack"
-                    class="btn primary">加入书架</button>
+                    class="btn primary">{{buttonText}}</button>
           </div>
         </div>
       </transition>
+      <div class="title">{{title}}</div>
       <div class="content"
            @click="menuShow"
            :style="{fontSize: fontSize+'px'}"
@@ -29,7 +30,9 @@
                   @click="reduceFontSize">A-</span>
           </div>
           <div class="bg">
-            <span class="item" v-for="(item, index) in bgList"
+            <span class="item"
+                  :class="activeBg === item.bgColor ? 'active' : ''"
+                  v-for="(item, index) in bgList"
                   :key="index"
                   :style="{backgroundColor: item.bgColor}"></span>
           </div>
@@ -40,13 +43,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   name: "bookContent",
   data() {
     return {
       show: false,
       fontSize: 16,
+      activeBg: "#fff",
       bgList: [
         {
           bgColor: "#fff"
@@ -65,6 +69,9 @@ export default {
   },
   computed: {
     ...mapState({
+      title: state => state.bookContent.title,
+      buttonText: state => state.bookContent.buttonText,
+      bookid: state => state.bookContent.bookid,
       content: state => state.bookContent.content
     })
   },
@@ -73,6 +80,7 @@ export default {
   },
   methods: {
     ...mapActions(["getBookContent"]),
+    ...mapMutations(["changeButtonText"]),
     _getContent() {
       const parmas = this.$route.query;
       this.show = false;
@@ -85,9 +93,26 @@ export default {
       this.$router.back();
     },
     _addBookrack() {
-      const option = {
-        mes: "加入书架成功"
-      };
+      let bookrackList = localStorage.bookrackList;
+      const option = {};
+      if (bookrackList) {
+        bookrackList = JSON.parse(bookrackList);
+        let flag = bookrackList.some(v => v === this.bookid);
+        if (!flag) {
+          bookrackList.push(this.bookid);
+          option.mes = "添加书架成功";
+          this.changeButtonText("取消书架");
+        } else {
+          bookrackList = bookrackList.filter(v => v !== this.bookid);
+          option.mes = "取消书架成功";
+          this.changeButtonText("添加书架");
+        }
+      } else {
+        bookrackList = [this.bookid];
+        option.mes = "添加书架成功";
+        this.changeButtonText("取消书架");
+      }
+      localStorage.bookrackList = JSON.stringify(bookrackList);
       this.$toast(option);
     },
     addFontSize() {
@@ -134,6 +159,12 @@ export default {
       }
     }
   }
+  .title {
+    text-align: center;
+    height: px2rem(60);
+    line-height: px2rem(60);
+    font-size: px2rem(20);
+  }
   .content {
     line-height: px2rem(30);
     // font-size: px2rem(16);
@@ -170,7 +201,7 @@ export default {
         text-align: center;
       }
     }
-    .bg{
+    .bg {
       height: px2rem(40);
       line-height: px2rem(40);
       display: flex;
@@ -180,6 +211,9 @@ export default {
         display: block;
         width: px2rem(40);
         height: px2rem(20);
+        &.active {
+          border: 1px solid #d4d4d4;
+        }
       }
     }
   }

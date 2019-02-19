@@ -10,7 +10,7 @@ export default {
     }
   },
   actions: {
-    async getBook({ commit }, data) {
+    async getBooks({ commit }, data) {
       let params = { bookid: data.bookid };
       let result = {};
       const { code, list } = await getBook(params);

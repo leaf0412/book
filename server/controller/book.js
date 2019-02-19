@@ -7,7 +7,7 @@ const path = require("path");
 
 router.prefix("/book");
 
-router.post("/hot", async function (ctx, next) {
+router.post("/hot", async function(ctx, next) {
   let { type, page = 1, pageSize = 10 } = ctx.request.body;
   page = parseInt(page);
   pageSize = parseInt(pageSize);
@@ -56,12 +56,17 @@ router.get("/detail", async (ctx, next) => {
 
 router.get("/allChapter", async ctx => {
   let { bookid, page = 0, pageSize = 10 } = ctx.query;
-  let skip = parseInt(page) * parseInt(pageSize)
-  let limit = parseInt(pageSize)
+  let skip = parseInt(page) * parseInt(pageSize);
+  let limit = parseInt(pageSize);
   if (bookid) {
     let res = await Books.findOne(
       { bookid },
-      { _id: 0, sectionList: { $slice: [skip, limit] }, "sectionList.id": 1, "sectionList.title": 1 }
+      {
+        _id: 0,
+        sectionList: { $slice: [skip, limit] },
+        "sectionList.id": 1,
+        "sectionList.title": 1
+      }
     );
     if (res) {
       ctx.body = {
@@ -82,12 +87,13 @@ router.get("/chapterDetail", async ctx => {
   if (id) {
     let res = await Books.findOne(
       { "sectionList.id": id },
-      { _id: 0, "sectionList.$": 1, count: 1 }
+      { _id: 0, bookid: 1, "sectionList.$": 1, count: 1 }
     );
     if (res) {
       ctx.body = {
         code: 0,
         msg: "操作成功",
+        bookid: res.bookid,
         list: res.sectionList[0]
       };
       let count = parseInt(res.count);
@@ -106,7 +112,7 @@ router.post("/upload", async (ctx, next) => {
   const file = ctx.request.files.file; // 获取上传文件
   if (!file) {
     sendError(ctx, { errmsg: "参数不能为空" });
-  };
+  }
   if (Array.isArray(file)) {
     for (let data of file) {
       filefilter(data);

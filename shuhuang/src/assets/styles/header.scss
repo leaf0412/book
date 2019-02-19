@@ -1,27 +1,31 @@
 .header {
+  border-bottom: 1px solid #ececec;
   .header-wrapper {
     padding: px2rem(12);
     background: $headerBg;
     display: flex;
     justify-content: flex-start;
+    box-sizing: border-box;
     // border-bottom: 1px solid #d4d4d4;
     .left {
       flex: 1;
       .logo {
-        width: px2rem(80);
+        line-height: px2rem(37.5);
         height: px2rem(37.5);
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
+        font-size: px2rem(20);
+        font-weight: 600;
+        letter-spacing: px2rem(10);
+        color: rgb(54, 54, 54);
       }
       .content {
         // display: flex;
         // justify-content: flex-start;
         line-height: px2rem(37.5);
         height: px2rem(37.5);
-        .icon{
+        .icon {
           display: inline-block;
           font-size: px2rem(24);
-          color: #fff;
+          color: $color;
           transform: rotate(180deg);
           transform-origin: 50% 40%;
         }
@@ -29,9 +33,9 @@
           display: inline-block;
           width: px2rem(300);
           text-align: center;
-          color: #fff;
+          color: $color;
           font-size: px2rem(16);
-        @include ell();
+          @include ell();
         }
       }
     }
@@ -42,7 +46,7 @@
       justify-content: flex-end;
       .icon {
         font-size: px2rem(24);
-        color: #fff;
+        color: $color;
       }
     }
   }
