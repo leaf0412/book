@@ -2,13 +2,14 @@
   padding: 0.2rem 0;
   box-sizing: border-box;
   background: $headerBg;
+  border-bottom: 1px solid #ececec;
   .menu {
     display: flex;
     justify-content: space-around;
     .item{
       line-height: 1rem;
       font-size: .45rem;
-      color: #fff;
+      color: $color;
       &.active {
         color: $navColor;
         border-bottom: 2px solid $navColor;

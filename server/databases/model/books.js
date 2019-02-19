@@ -1,4 +1,4 @@
-const mongoose = require('../index');
+const mongoose = require("../index");
 const BooksSchema = mongoose.Schema({
   bookid: { type: Number },
   title: { type: String },
@@ -16,7 +16,7 @@ const BooksSchema = mongoose.Schema({
     }
   ],
   count: { type: String }
-})
+});
 
-const BooksModel = mongoose.model('books', BooksSchema, 'books')
-module.exports = BooksModel
+const BooksModel = mongoose.model("books", BooksSchema, "books");
+module.exports = BooksModel;

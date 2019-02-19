@@ -54,7 +54,6 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log(to);
       this.activePath = this.$route.path;
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].to == this.activePath) {

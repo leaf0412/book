@@ -3,12 +3,12 @@ $fontSize: 37.5;
 $primary: #fc6e51;
 
 $color: rgb(63, 63, 63);
-$headerBg: #149dc5;
-$navColor: #084094;
+$headerBg: rgb(255, 255, 255);
+$navColor: $primary;
 
 // btn
 $btn_default_bg: #fff;
-$btn_primary_bg: #fc6e51;
+$btn_primary_bg: $primary;
 
 @function px2rem($px) {
   @return ($px / $fontSize) + rem;
@@ -17,8 +17,7 @@ $btn_primary_bg: #fc6e51;
 @mixin tap-color($color, $opacity: 0.5) {
   background-color: $color;
   &:active {
-    background-color: desaturate($color, 50%);; // sass 颜色函数
-    // background-color: $color * $opacity; // sass 颜色函数
+    background-color: desaturate($color, 50%); // sass 颜色函数
     // background-color: rgba($color, $opacity); // sass 颜色函数
   }
 }
