@@ -53,12 +53,11 @@ export default {
     })
   },
   watch: {
-    $route(to) {
+    $route() {
       this.activePath = this.$route.path;
       for (let i = 0; i < this.list.length; i++) {
         if (this.list[i].to == this.activePath) {
           this.show = true;
-          return
         } else {
           this.show = false;
         }
