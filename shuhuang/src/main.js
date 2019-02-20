@@ -5,6 +5,9 @@ import store from "./vuex/store";
 import "./assets/styles/font/iconfont.css";
 import "./assets/styles/reset.scss";
 
+// 手机物理返回键
+import "./plugin/plus";
+
 import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
 
