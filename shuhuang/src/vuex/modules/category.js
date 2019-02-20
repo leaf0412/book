@@ -46,7 +46,7 @@ export default {
       }
       let { code, list, count } = await getBooksList(params);
       if (code === 0) {
-        state.isStop = count !== state.pageSize;
+        state.isStop = count < state.pageSize;
         result = [...result, ...list];
       }
       commit("getBooksData", result);

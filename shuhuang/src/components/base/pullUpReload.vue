@@ -112,8 +112,12 @@ export default {
     }
   },
   watch: {
-    isStop() {
-      this.pullUpState = 1;
+    isStop(val) {
+      if(val) {
+        this.pullUpState = 3;
+      } else {
+        this.pullUpState = 1;
+      }
     }
   }
 };

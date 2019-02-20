@@ -14,6 +14,7 @@
             <div class="item">{{bookInfo.category}} - {{bookInfo.isover}}</div>
           </div>
         </div>
+        
         <div class="desc">
           <span class="text">内容简介：</span>
           <span class="content">
@@ -75,6 +76,9 @@ export default {
   mounted() {
     this._getBook();
   },
+  activated() {
+    this._getBook();
+  },
   methods: {
     ...mapActions(["getBooks"]),
     _getBook() {
@@ -88,11 +92,7 @@ export default {
       this.show = false;
     }
   },
-  watch: {
-    $route() {
-      this._getBook();
-    }
-  }
+  watch: {}
 };
 </script>
 <style lang='scss' scoped>

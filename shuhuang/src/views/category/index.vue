@@ -1,16 +1,16 @@
 <template>
   <transition name="shift-right">
     <div class="category">
-        <ul class="wrapper">
-          <li class="content"
-              @click="goto(item)"
-              v-for="(item, index) in categoryList"
-              :key="index">
-            <div class="type">
-              {{item.name}}
-            </div>
-          </li>
-        </ul>
+      <ul class="wrapper">
+        <li class="content"
+            @click="goto(item)"
+            v-for="(item, index) in categoryList"
+            :key="index">
+          <div class="type">
+            {{item.name}}
+          </div>
+        </li>
+      </ul>
     </div>
   </transition>
 </template>
@@ -38,7 +38,7 @@ export default {
     ...mapActions(["getCategoryList"]),
     goto(item) {
       this.$router.push({
-        path: `/category/type`,
+        path: `/categoryDetail`,
         query: {
           title: item.name
         }
@@ -50,7 +50,7 @@ export default {
 
 <style lang="scss" scoped>
 .category {
-  // height: 100%;
+  overflow-y: auto;
   .wrapper {
     .content {
       display: flex;

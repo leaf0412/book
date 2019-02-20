@@ -18,7 +18,7 @@ import MHeader from "@/components/header/header.vue";
 import MList from "@/components/list/list.vue";
 import { mapState, mapActions } from "vuex";
 export default {
-  name: "category-id",
+  name: "categoryDetail",
   data() {
     return {
       title: ""
@@ -35,6 +35,9 @@ export default {
       isStop: state => state.category.isStop
     })
   },
+  activated() {
+    this.getList(this.refresh);
+  },
   mounted() {
     this.getList(this.refresh);
   },
@@ -45,10 +48,6 @@ export default {
       await this.getBooksData({ type: this.title, refresh });
     }
   },
-  watch: {
-    $route(to) {
-      if (to.params.id === "type") this.getList(this.refresh);
-    }
-  }
+  watch: {}
 };
 </script>

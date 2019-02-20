@@ -2,7 +2,6 @@
   <div class="nav">
     <div class="menu">
       <div class="item"
-           :type="activePath"
            :class="`${activePath}` === item.to && 'active'"
            @click="goto(item)"
            v-for="(item, index) in list"

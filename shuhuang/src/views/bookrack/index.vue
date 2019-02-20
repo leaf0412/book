@@ -47,7 +47,6 @@ export default {
 
 <style lang="scss" scoped>
 .bookrack {
-  height: 100%;
   .top-wrapper {
     width: 90%;
     margin: px2rem(10) auto;
