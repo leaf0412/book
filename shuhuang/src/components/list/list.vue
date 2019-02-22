@@ -1,7 +1,6 @@
 <template>
   <div class="item" @click="goto(list)">
-    <div class="img"
-         :style="{ backgroundImage: 'url(' + emtry + ')' }"></div>
+    <div class="img" :style="{ backgroundImage: 'url(' + emtry + ')' }"></div>
     <div class="info">
       <div class="title">{{ list.title }}</div>
       <div class="description">{{ list.desc }}</div>
@@ -37,7 +36,7 @@ export default {
         query: {
           bookid: item.bookid
         }
-      })
+      });
     }
   }
 };
@@ -50,7 +49,7 @@ export default {
   padding: px2rem(10);
   background: #fff;
   border-bottom: 1px solid #e6e6e6;
-  &:last-child{
+  &:last-child {
     border-bottom: none;
   }
   .img {

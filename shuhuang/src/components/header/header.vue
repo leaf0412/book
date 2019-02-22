@@ -2,21 +2,18 @@
   <div class="header">
     <div class="header-wrapper">
       <div class="left">
-        <div class="logo"
-             :title="headType"
-             v-if="headType === type">{{logoTxt}}</div>
-        <div class="content"
-             v-else>
-          <span class="icon sky-leaf leaf-youjiantou"
-                @click="goBack"></span>
+        <div class="logo" :title="headType" v-if="headType === type">
+          {{ logoTxt }}
+        </div>
+        <div class="content" v-else>
+          <span class="icon sky-leaf leaf-youjiantou" @click="goBack"></span>
           <div class="title">
-            {{title}}
+            {{ title }}
           </div>
         </div>
       </div>
       <div class="right">
-        <span @click="getUserInfo"
-              class="icon sky-leaf leaf-yonghu"></span>
+        <span @click="getUserInfo" class="icon sky-leaf leaf-yonghu"></span>
       </div>
     </div>
   </div>

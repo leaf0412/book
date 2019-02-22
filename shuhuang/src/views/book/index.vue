@@ -6,32 +6,36 @@
       <!-- 书籍的信息 -->
       <div class="top-warpper">
         <div class="bookInfo">
-          <div :style="{ backgroundImage: 'url(' + bookInfo.pic +')' }"
-               class="img"></div>
+          <div
+            :style="{ backgroundImage: 'url(' + bookInfo.pic + ')' }"
+            class="img"
+          ></div>
           <div class="info">
-            <div class="item title">{{bookInfo.title}}</div>
-            <div class="item author">{{bookInfo.author}}</div>
-            <div class="item">{{bookInfo.category}} - {{bookInfo.isover}}</div>
+            <div class="item title">{{ bookInfo.title }}</div>
+            <div class="item author">{{ bookInfo.author }}</div>
+            <div class="item">
+              {{ bookInfo.category }} - {{ bookInfo.isover }}
+            </div>
           </div>
         </div>
-        
+
         <div class="desc">
           <span class="text">内容简介：</span>
           <span class="content">
-            {{desc}}
+            {{ desc }}
           </span>
-          <span class=""
-                @click="lookMore"
-                v-show="show">{{toggle}}</span>
+          <span class="" @click="lookMore" v-show="show">{{ toggle }}</span>
         </div>
       </div>
 
       <!-- 书籍最新章节 -->
       <div class="now">
         <div class="title">目录</div>
-        <book-list v-for="(item, index) in bookInfo.sectionList"
-                   :key="index"
-                   :list="item"></book-list>
+        <book-list
+          v-for="(item, index) in bookInfo.sectionList"
+          :key="index"
+          :list="item"
+        ></book-list>
       </div>
     </div>
   </transition>
@@ -95,7 +99,7 @@ export default {
   watch: {}
 };
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .book {
   .top-warpper {
     padding: px2rem(10);

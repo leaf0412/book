@@ -1,8 +1,7 @@
 <template>
   <div v-if="show">
     <m-header :headType="headType"></m-header>
-    <m-nav :activePath="activePath"
-           :list="list"></m-nav>
+    <m-nav :activePath="activePath" :list="list"></m-nav>
     <!-- <slot></slot> -->
   </div>
 </template>

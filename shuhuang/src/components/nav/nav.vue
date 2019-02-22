@@ -1,11 +1,15 @@
 <template>
   <div class="nav">
     <div class="menu">
-      <div class="item"
-           :class="`${activePath}` === item.to && 'active'"
-           @click="goto(item)"
-           v-for="(item, index) in list"
-           :key="index">{{item.name}}</div>
+      <div
+        class="item"
+        :class="`${activePath}` === item.to && 'active'"
+        @click="goto(item)"
+        v-for="(item, index) in list"
+        :key="index"
+      >
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -18,8 +22,8 @@ export default {
       default: ""
     },
     list: {
-      type:Array,
-      default: ()=> []
+      type: Array,
+      default: () => []
     }
   },
   methods: {

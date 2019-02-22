@@ -2,12 +2,12 @@
   <transition name="zoom">
     <div class="detail">
       <m-header :title="title"></m-header>
-      <m-up-scroll ref="upScroll"
-                   :isStop="isStop"
-                   :onInfiniteLoad="getList">
-        <m-list v-for="(item, index) in booksData"
-                :list="item"
-                :key="index"></m-list>
+      <m-up-scroll ref="upScroll" :isStop="isStop" :onInfiniteLoad="getList">
+        <m-list
+          v-for="(item, index) in booksData"
+          :list="item"
+          :key="index"
+        ></m-list>
       </m-up-scroll>
     </div>
   </transition>

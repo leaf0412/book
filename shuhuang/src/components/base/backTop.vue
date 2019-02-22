@@ -1,8 +1,6 @@
 <template>
-  <div class="back-top"
-       v-if="show">
-    <span class="btn"
-          @click="goTop">
+  <div class="back-top" v-if="show">
+    <span class="btn" @click="goTop">
       回到顶部
     </span>
   </div>

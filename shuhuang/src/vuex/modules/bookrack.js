@@ -3,8 +3,6 @@ export default {
     readingRecode: "reading_recode",
     bookrack: "my_bookrack"
   },
-  mutations: {
-  },
-  actions: {
-  }
+  mutations: {},
+  actions: {}
 };

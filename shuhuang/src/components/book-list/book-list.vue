@@ -1,7 +1,6 @@
 <template>
-  <div class="book-list"
-       @click="goto(list)">
-    <div class="title">{{list.title}}</div>
+  <div class="book-list" @click="goto(list)">
+    <div class="title">{{ list.title }}</div>
     <!-- <div class="time">{{time}}</div> -->
   </div>
 </template>
@@ -44,7 +43,7 @@ export default {
 };
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .book-list {
   display: flex;
   justify-content: space-between;

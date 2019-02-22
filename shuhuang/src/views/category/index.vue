@@ -2,12 +2,14 @@
   <transition name="shift-right">
     <div class="category">
       <ul class="wrapper">
-        <li class="content"
-            @click="goto(item)"
-            v-for="(item, index) in categoryList"
-            :key="index">
+        <li
+          class="content"
+          @click="goto(item)"
+          v-for="(item, index) in categoryList"
+          :key="index"
+        >
           <div class="type">
-            {{item.name}}
+            {{ item.name }}
           </div>
         </li>
       </ul>
@@ -16,7 +18,7 @@
 </template>
 
 <script>
-import MList from "@/components/list/list.vue";
+// import MList from "@/components/list/list.vue";
 import { mapState, mapActions } from "vuex";
 export default {
   name: "category",
@@ -24,7 +26,7 @@ export default {
     return {};
   },
   components: {
-    MList
+    // MList
   },
   computed: {
     ...mapState({
@@ -90,4 +92,3 @@ export default {
   // }
 }
 </style>
-

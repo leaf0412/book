@@ -1,22 +1,21 @@
 <template>
-  <div class="loadMoudle"
-       @touchstart="touchStart($event)"
-       @touchmove="touchMove($event)"
-       :style="{transform: 'translate3d(0,' + top + 'px, 0)'}">
+  <div
+    class="loadMoudle"
+    @touchstart="touchStart($event)"
+    @touchmove="touchMove($event)"
+    :style="{ transform: 'translate3d(0,' + top + 'px, 0)' }"
+  >
     <slot></slot>
     <footer class="load-more">
       <slot name="load-more">
-        <div class="moreData-tip"
-             v-if="pullUpState===1">
+        <div class="moreData-tip" v-if="pullUpState === 1">
           <span class="moreData-tip-text">{{ moreDataTxt }}</span>
         </div>
-        <div class="loadingMoreData-tip"
-             v-if="pullUpState===2">
+        <div class="loadingMoreData-tip" v-if="pullUpState === 2">
           <span class="icon-loading"></span>
           <span class="loadingMoreData-tip-text">{{ loadingMoreDataTxt }}</span>
         </div>
-        <div class="noMoreData-tip"
-             v-if="pullUpState===3">
+        <div class="noMoreData-tip" v-if="pullUpState === 3">
           <span class="connectingLine"></span>
           <span class="noMoreData-tip-text">{{ noMoreDataTxt }}</span>
           <span class="connectingLine"></span>
@@ -113,7 +112,7 @@ export default {
   },
   watch: {
     isStop(val) {
-      if(val) {
+      if (val) {
         this.pullUpState = 3;
       } else {
         this.pullUpState = 1;

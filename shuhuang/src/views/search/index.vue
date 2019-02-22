@@ -1,9 +1,9 @@
 <template>
   <transition name="shift-right">
     <div class="search-warpper">
-        <div class="search-box">
-          <input type="text">
-        </div>
+      <div class="search-box">
+        <input type="text" />
+      </div>
     </div>
   </transition>
 </template>
@@ -21,5 +21,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

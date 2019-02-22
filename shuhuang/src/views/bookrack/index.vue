@@ -1,14 +1,16 @@
 <template>
   <transition name="shift-left">
     <div class="bookrack">
-        <ul class="top-wrapper">
-          <li class="item"
-              :class="menuActive === item.type ? 'active' : ''"
-              v-for="item in menuList"
-              :key="item.id">
-            {{item.name}}
-          </li>
-        </ul>
+      <ul class="top-wrapper">
+        <li
+          class="item"
+          :class="menuActive === item.type ? 'active' : ''"
+          v-for="item in menuList"
+          :key="item.id"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
     </div>
   </transition>
 </template>
@@ -68,4 +70,3 @@ export default {
   }
 }
 </style>
-

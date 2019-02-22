@@ -1,16 +1,18 @@
 <template>
   <transition name="shift-left">
     <div class="home">
-      <m-up-scroll ref="upScroll"
-                   :isStop="isStop"
-                   :onInfiniteLoad="getMore">
-          <m-down-scroll ref="downScroll"
-                         :defaultOffset="50"
-                         :onInfiniteLoad="_refresh">
-            <m-list v-for="(item, index) in homeList"
-                    :list="item"
-                    :key="index"></m-list>
-          </m-down-scroll>
+      <m-up-scroll ref="upScroll" :isStop="isStop" :onInfiniteLoad="getMore">
+        <m-down-scroll
+          ref="downScroll"
+          :defaultOffset="50"
+          :onInfiniteLoad="_refresh"
+        >
+          <m-list
+            v-for="(item, index) in homeList"
+            :list="item"
+            :key="index"
+          ></m-list>
+        </m-down-scroll>
       </m-up-scroll>
     </div>
   </transition>

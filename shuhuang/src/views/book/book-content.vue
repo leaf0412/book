@@ -2,62 +2,66 @@
   <transition name="zoom">
     <div class="book-content">
       <transition name="zoom">
-        <div class="top-warpper"
-             v-show="show">
+        <div class="top-warpper" v-show="show">
           <div class="left">
-            <span class="icon sky-leaf leaf-youjiantou"
-                  @click="goBack"></span>
+            <span class="icon sky-leaf leaf-youjiantou" @click="goBack"></span>
           </div>
           <div class="right">
-            <button @click="_addBookrack"
-                    class="btn primary">{{ buttonText }}</button>
+            <button @click="_addBookrack" class="btn primary">
+              {{ buttonText }}
+            </button>
           </div>
         </div>
       </transition>
-      <div class="content-warpper"
-           @click="menuShow"
-           :style="{ backgroundColor: bgColor, color: color }">
-        <div class="title"
-             :style="{ fontSize: (fontSize + 4) + 'px' }">{{title}}</div>
-        <div class="content"
-             :style="{ fontSize: fontSize + 'px' }"
-             v-html="content"></div>
+      <div
+        class="content-warpper"
+        @click="menuShow"
+        :style="{ backgroundColor: bgColor, color: color }"
+      >
+        <div class="title" :style="{ fontSize: fontSize + 4 + 'px' }">
+          {{ title }}
+        </div>
+        <div
+          class="content"
+          :style="{ fontSize: fontSize + 'px' }"
+          v-html="content"
+        ></div>
         <div class="chapter">
-          <button class="btn primary isplain"
-                  @click.stop="pervPage">上一章</button>
-          <button class="btn primary isplain"
-                  @click.stop="nextPage">下一章</button>
+          <button class="btn primary isplain" @click.stop="pervPage">
+            上一章
+          </button>
+          <button class="btn primary isplain" @click.stop="nextPage">
+            下一章
+          </button>
         </div>
       </div>
       <transition name="zoom">
-        <div class="footer-warpper"
-             v-show="show">
+        <div class="footer-warpper" v-show="show">
           <div class="chapter">
-            <div class="pervChapter"
-                 @click="pervPage">
+            <div class="pervChapter" @click="pervPage">
               <span class="icon sky-leaf leaf-youjiantou"></span>
               上一章
             </div>
             <div class="allChapter">全部章节</div>
-            <div class="nextChapter"
-                 @click="nextPage">
+            <div class="nextChapter" @click="nextPage">
               下一章
               <span class="icon sky-leaf leaf-youjiantou"></span>
             </div>
           </div>
           <div class="font">
             <span class="text">{{ fontSize }}</span>
-            <span class="add"
-                  @click="addFontSize">A+</span>
-            <span class="reduce"
-                  @click="reduceFontSize">A-</span>
+            <span class="add" @click="addFontSize">A+</span>
+            <span class="reduce" @click="reduceFontSize">A-</span>
           </div>
           <div class="bg">
-            <span class="item"
-                  v-for="(item, index) in bgList"
-                  :key="index"
-                  @click="changeBgColor(item)"
-                  :style="{ backgroundColor: item.bgColor, color: item.color }">{{ item.txt }}</span>
+            <span
+              class="item"
+              v-for="(item, index) in bgList"
+              :key="index"
+              @click="changeBgColor(item)"
+              :style="{ backgroundColor: item.bgColor, color: item.color }"
+              >{{ item.txt }}</span
+            >
           </div>
         </div>
       </transition>

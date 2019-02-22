@@ -1,24 +1,32 @@
 <template>
-  <div class="loadMoudle"
-       @touchstart="touchStart($event)"
-       @touchmove="touchMove($event)"
-       @touchend="touchEnd($event)"
-       :style="{transform: 'translate3d(0,' + top + 'px, 0)'}">
+  <div
+    class="loadMoudle"
+    @touchstart="touchStart($event)"
+    @touchmove="touchMove($event)"
+    @touchend="touchEnd($event)"
+    :style="{ transform: 'translate3d(0,' + top + 'px, 0)' }"
+  >
     <header class="load-more">
       <slot name="load-more">
-        <div class="drow-tip"
-             v-if="dropDownState===1"
-             :style="{ height: defaultOffset+'px' }">
+        <div
+          class="drow-tip"
+          v-if="dropDownState === 1"
+          :style="{ height: defaultOffset + 'px' }"
+        >
           <span class="drow-tip-text">{{ drowTxt }}</span>
         </div>
-        <div class="refresh-tip"
-             v-if="dropDownState===2"
-             :style="{ height: defaultOffset+'px' }">
+        <div
+          class="refresh-tip"
+          v-if="dropDownState === 2"
+          :style="{ height: defaultOffset + 'px' }"
+        >
           <span class="refresh-tip-text">{{ refreshTxt }}</span>
         </div>
-        <div class="loading-tip"
-             v-if="dropDownState===3"
-             :style="{ height: defaultOffset+'px' }">
+        <div
+          class="loading-tip"
+          v-if="dropDownState === 3"
+          :style="{ height: defaultOffset + 'px' }"
+        >
           <span class="icon-loading"></span>
           <span class="loading-tip-text">{{ loadingTxt }}</span>
         </div>
