@@ -1,10 +1,12 @@
-import { getChapterDetail } from "@/interface/book.js";
+import { getChapterDetail, bookPlay } from "@/interface/book.js";
+
 export default {
   state: {
     buttonText: "",
     bookid: "",
     title: "",
     content: "",
+    audioSrc: "",
     bookinfo: {}
   },
   mutations: {
@@ -12,6 +14,9 @@ export default {
       state.title = data.title;
       state.bookinfo = data;
       state.content = data.content;
+    },
+    getBookAudio(state, data) {
+      state.audioSrc = data;
     },
     changeButtonText(state, data) {
       state.buttonText = data;
@@ -35,6 +40,18 @@ export default {
         result = list;
       }
       commit("getBookContent", result);
+    },
+    async getBookAudio({ commit }, data) {
+      return new Promise(async resolve => {
+        const params = data;
+        let result = "";
+        const { code, src } = await bookPlay(params);
+        if (code === 0) {
+          result = src;
+        }
+        commit("getBookAudio", result);
+        resolve(result);
+      });
     }
   }
 };

@@ -12,7 +12,7 @@ const cors = require("koa2-cors");
 const config = require("./config/index");
 
 // static
-const public = static(path.join(__dirname) + "/public");
+const public = static(path.join(__dirname),  "./public");
 
 // router
 const router = require("./rouetr/index");

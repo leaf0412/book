@@ -14,3 +14,9 @@ export const getChapterDetail = params => {
     .get(`${config.apiUrl}${perfix}/chapterDetail`, { params })
     .then(res => res.data);
 };
+
+export const bookPlay = params => {
+  return axios
+    .post(`${config.apiUrl}${perfix}/play`, params)
+    .then(res => res.data);
+};

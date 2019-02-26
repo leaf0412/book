@@ -2,66 +2,77 @@
   <transition name="zoom">
     <div class="book-content">
       <transition name="zoom">
-        <div class="top-warpper" v-show="show">
+        <div class="top-warpper"
+             v-show="show">
           <div class="left">
-            <span class="icon sky-leaf leaf-youjiantou" @click="goBack"></span>
+            <span class="icon sky-leaf leaf-youjiantou"
+                  @click="goBack"></span>
           </div>
           <div class="right">
-            <button @click="_addBookrack" class="btn primary">
+            <audio id="mp3Btn"
+                   :src="audioSrc"></audio>
+            <button @click="play"
+                    class="btn primary">
+              播放本章
+            </button>
+            <button @click="_addBookrack"
+                    class="btn primary">
               {{ buttonText }}
             </button>
           </div>
         </div>
       </transition>
-      <div
-        class="content-warpper"
-        @click="menuShow"
-        :style="{ backgroundColor: bgColor, color: color }"
-      >
-        <div class="title" :style="{ fontSize: fontSize + 4 + 'px' }">
+      <div class="content-warpper"
+           @click="menuShow"
+           :style="{ backgroundColor: bgColor, color: color }">
+        <div class="title"
+             :style="{ fontSize: fontSize + 4 + 'px' }">
           {{ title }}
         </div>
-        <div
-          class="content"
-          :style="{ fontSize: fontSize + 'px' }"
-          v-html="content"
-        ></div>
+        <div class="content"
+        ref="Content"
+             :style="{ fontSize: fontSize + 'px' }"
+             v-html="content"></div>
         <div class="chapter">
-          <button class="btn primary isplain" @click.stop="pervPage">
+          <button class="btn primary isplain"
+                  @click.stop="pervPage">
             上一章
           </button>
-          <button class="btn primary isplain" @click.stop="nextPage">
+          <button class="btn primary isplain"
+                  @click.stop="nextPage">
             下一章
           </button>
         </div>
       </div>
       <transition name="zoom">
-        <div class="footer-warpper" v-show="show">
+        <div class="footer-warpper"
+             v-show="show">
           <div class="chapter">
-            <div class="pervChapter" @click="pervPage">
+            <div class="pervChapter"
+                 @click="pervPage">
               <span class="icon sky-leaf leaf-youjiantou"></span>
               上一章
             </div>
             <div class="allChapter">全部章节</div>
-            <div class="nextChapter" @click="nextPage">
+            <div class="nextChapter"
+                 @click="nextPage">
               下一章
               <span class="icon sky-leaf leaf-youjiantou"></span>
             </div>
           </div>
           <div class="font">
             <span class="text">{{ fontSize }}</span>
-            <span class="add" @click="addFontSize">A+</span>
-            <span class="reduce" @click="reduceFontSize">A-</span>
+            <span class="add"
+                  @click="addFontSize">A+</span>
+            <span class="reduce"
+                  @click="reduceFontSize">A-</span>
           </div>
           <div class="bg">
-            <span
-              class="item"
-              v-for="(item, index) in bgList"
-              :key="index"
-              @click="changeBgColor(item)"
-              :style="{ backgroundColor: item.bgColor, color: item.color }"
-              >{{ item.txt }}</span
-            >
+            <span class="item"
+                  v-for="(item, index) in bgList"
+                  :key="index"
+                  @click="changeBgColor(item)"
+                  :style="{ backgroundColor: item.bgColor, color: item.color }">{{ item.txt }}</span>
           </div>
         </div>
       </transition>
@@ -109,7 +120,8 @@ export default {
       buttonText: state => state.bookContent.buttonText,
       bookid: state => state.bookContent.bookid,
       content: state => state.bookContent.content,
-      bookinfo: state => state.bookContent.bookinfo
+      bookinfo: state => state.bookContent.bookinfo,
+      audioSrc: state => state.bookContent.audioSrc
     })
   },
   mounted() {
@@ -124,7 +136,7 @@ export default {
     this._getContent();
   },
   methods: {
-    ...mapActions(["getBookContent"]),
+    ...mapActions(["getBookContent", "getBookAudio"]),
     ...mapMutations(["changeButtonText"]),
     _getContent() {
       const parmas = this.$route.query;
@@ -217,6 +229,21 @@ export default {
         this.$toast({ mes: "暂无章节" });
         this.goBack();
       }
+    },
+    async play() {
+      if (this.bookinfo) {
+        let parmas = {
+          title: this.title,
+          content: this.$refs.Content.innerText
+        };
+        const result = await this.getBookAudio(parmas);
+        if(result) {
+          document.getElementById("mp3Btn").play();
+        }
+      } else {
+        this.$toast({ mes: "暂无章节" });
+        this.goBack();
+      }
     }
   },
   watch: {
@@ -230,8 +257,9 @@ export default {
 <style lang="scss">
 @import "@/assets/styles/button.scss";
 .book-content {
-  position: relative;
-  height: 100%;
+  // overflow: hidden;
+  // position: relative;
+  // height: 100%;
   .top-warpper {
     position: fixed;
     top: 0;
@@ -255,19 +283,24 @@ export default {
   }
   .content-warpper {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     overflow-y: auto;
     z-index: 999;
     .title {
+      flex: auto;
       text-align: center;
-      height: px2rem(60);
-      line-height: px2rem(60);
+      padding: px2rem(10);
     }
     .content {
+      flex: 1;
       line-height: px2rem(30);
       padding: px2rem(10) px2rem(20);
       overflow: hidden;
     }
     .chapter {
+      flex: auto;
       display: flex;
       height: px2rem(40);
       line-height: px2rem(40);

@@ -19,10 +19,11 @@ export default {
   position: fixed;
   left: 50%;
   top: 50%;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0, 0, 0, 0.85);
   padding: 10px;
   border-radius: 5px;
   color: #fff;
+  z-index: 10000;
   &.center {
     left: 50%;
     top: 50%;
