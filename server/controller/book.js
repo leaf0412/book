@@ -5,8 +5,6 @@ const router = new Router();
 const fs = require("fs");
 const path = require("path");
 const http = require("http");
-const https = require("https");
-const request = require("request");
 const querystring = require("querystring");
 
 router.prefix("/book");
@@ -143,15 +141,60 @@ router.post("/play", async ctx => {
     content = content.replace(/@+/g, "");
     title = title.replace(/\s+/g, "");
     title = title.replace(/-/g, "");
-    let { filePath, errmsg } = await getAudio({ title, content });
-    if (filePath) {
-      ctx.body = {
-        code: 0,
-        msg: "操作成功",
-        src: filePath
-      };
-    } else {
-      sendError(ctx, { errmsg });
+    const fileNum = 25;
+    const contentNum = 800;
+    const publicPath = "/public/audio/";
+    const folderExists = fs.existsSync(`.${publicPath}`);
+    if (!folderExists) {
+      sendError(ctx, { errmsg: "文件夹不存在" });
+    }
+    // 该文件夹下的文件数量到达
+    const files = fs.readdirSync(`.${publicPath}`);
+    if (files.length >= fileNum) {
+      files.forEach(filename => {
+        fs.unlinkSync(`.${publicPath}${filename}`);
+      });
+    }
+    // // 判断文件是否存在
+    let flag = true;
+    files.forEach(filename => {
+      if (`.${publicPath}${filename}` === `.${publicPath}${title}.mp3`) {
+        let filePath = `${publicPath}${title}.mp3`;
+        ctx.body = {
+          code: 0,
+          msg: "操作成功",
+          src: filePath
+        };
+        flag = false;
+      }
+    });
+    if (flag) {
+      let strArr = [];
+      let contentLength = content.length;
+      let num = contentLength - contentNum;
+      let i = 1;
+      while (num >= 0) {
+        let str =
+          i === 1
+            ? content.substring(0, contentNum * i)
+            : content.substring(contentNum * (i - 1), contentNum * i);
+        strArr.push({ title, content: str });
+        num = contentLength - contentNum * i;
+        i++;
+      }
+      if (i === 1 && num < 0) {
+        strArr.push({ title, content });
+      }
+      let { filePath, errmsg } = await getAudio(strArr);
+      if (filePath) {
+        ctx.body = {
+          code: 0,
+          msg: "操作成功",
+          src: filePath
+        };
+      } else {
+        sendError(ctx, { errmsg });
+      }
     }
   } else {
     sendError(ctx, { errmsg: "参数不能为空" });
@@ -188,47 +231,47 @@ const filefilter = data => {
 
 const getAudio = data => {
   return new Promise(async resolve => {
-    // https请求百度接口
-    let { title, content } = data;
-    const postData = querystring.stringify({
-      title,
-      content,
-      sex: 4,
-      speed: 5,
-      volumn: 7,
-      pit: 5,
-      method: "TRADIONAL"
-    });
-    let options = {
-      host: "developer.baidu.com",
-      path: "/vcast/getVcastInfo",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Content-Length": postData.length,
-        Accept: "application/json, text/javascript, */*; q=0.01",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-CN,zh;q=0.9",
-        Cookie:
-          "BAIDUID=EF33ADC820760FB80C16594E23630A5F:FG=1; PSTM=1526457682; BIDUPSID=EF33ADC820760FB80C16594E23630A5F; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; H_PS_PSSID=1464_21112_26350_28415; BDSFRCVID=QRFOJeCwM6144fJ9J3ZQhbw7k0ctwijTH6aokTGiQ8qMtGMZooAtEG0PDU8g0Ku-S2EqogKK3gOTH4PF_2uxOjjg8UtVJeC6EG0P3J; H_BDCLCKID_SF=tRAOoC8atDvHjjrP-trf5DCShUFsQljlB2Q-5-3zJDDMMbQ_efC5Wl_J-ltfa5O2bTv0BfbdJJjojUbjMqLWKfu3QPcz2-RCbgTxoUJgQCnJhhvGqq-KQJ_ebPRiJ-b9Qg-JbpQ7tt5W8ncFbT7l5hKpbt-q0x-jLn7ZVJO-KKChMCIm3J; BDUSS=UREbHNCNWFRYldUMmNVTk1XMmRBMTl3WDZTeEZNNTIyYXRPanZwVjJKUGxIcHhjQUFBQUFBJCQAAAAAAAAAAAEAAAA-5F9JzuG2wM7esK4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOWRdFzlkXRcb; PSINO=6; delPer=0; Hm_lvt_3abe3fb0969d25e335f1fe7559defcc6=1551073007,1551162624; Hm_lpvt_3abe3fb0969d25e335f1fe7559defcc6=1551163877"
-      }
-    };
-    const req = https.request(options, res => {
-      let src = "";
-      res.setEncoding("utf8");
-      res.on("data", chunk => {
-        // console.log("chunk", chunk)
-        src = JSON.parse(chunk).bosUrl;
+    // 调用http模块的request方法请求百度接口
+    const publicPath = "/public/audio/";
+    let chunks = [];
+    for (let i = 0; i < data.length; i++) {
+      const postData = querystring.stringify({
+        lan: "zh", // zh表示中文
+        ie: "UTF-8", // 字符编码
+        spd: 4, // 表示朗读的语速，1-9 1 最慢 9 最快
+        text: data[i].content // 表示要转换的文字
       });
-      res.on("end", () => {
-        resolve({ filePath: src });
+      const options = {
+        methods: "GET",
+        hostname: "tts.baidu.com",
+        path: "/text2audio?" + postData
+      };
+      let result = await getBaiduApi(options);
+      chunks.push(...result);
+    }
+    // 这里用到了Buffer模块，大概意思就是把获取到的语音文件流存入到body里面，body是一个Buffer
+    const body = Buffer.concat(chunks);
+    // 生成的mp3文件存储的路径
+    const filePath = path.normalize(`.${publicPath}${data[0].title}.mp3`);
+    // fs模块写文件
+    fs.writeFileSync(filePath, body);
+    resolve({ filePath: `${publicPath}${data[0].title}.mp3` });
+
+  });
+};
+
+// http请求文字转换语音的方法
+const getBaiduApi = options => {
+  return new Promise(resolve => {
+    const req = http.request(options, function(res) {
+      let chunks = [];
+      res.on("data", function(chunk) {
+        chunks.push(chunk); // 获取到的音频文件数据暂存到chunks里面
+      });
+      res.on("end", function() {
+        resolve(chunks);
       });
     });
-    req.on("error", e => {
-      console.log(`problem with request: ${e.message}`);
-    });
-    // write data to request body
-    req.write(postData);
     req.end();
   });
 };

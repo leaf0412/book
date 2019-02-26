@@ -1,4 +1,5 @@
 import { getChapterDetail, bookPlay } from "@/interface/book.js";
+import config from "@/config/index.js";
 
 export default {
   state: {
@@ -16,7 +17,7 @@ export default {
       state.content = data.content;
     },
     getBookAudio(state, data) {
-      state.audioSrc = data;
+      state.audioSrc = config.apiUrl + data;
     },
     changeButtonText(state, data) {
       state.buttonText = data;
