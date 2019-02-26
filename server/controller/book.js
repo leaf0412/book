@@ -143,62 +143,15 @@ router.post("/play", async ctx => {
     content = content.replace(/@+/g, "");
     title = title.replace(/\s+/g, "");
     title = title.replace(/-/g, "");
-    // const fileNum = 25;
-    // const contentNum = 800;
-    // const publicPath = "/public/audio/";
-    // const folderExists = fs.existsSync(`.${publicPath}`);
-    // if (!folderExists) {
-    //   sendError(ctx, { errmsg: "文件夹不存在" });
-    // }
-    // // 该文件夹下的文件数量到达
-    // const files = fs.readdirSync(`.${publicPath}`);
-    // if (files.length >= fileNum) {
-    //   files.forEach(filename => {
-    //     fs.unlinkSync(`.${publicPath}${filename}`);
-    //   });
-    // }
-    // // 判断文件是否存在
-    let flag = true;
-    // files.forEach(filename => {
-    //   if (`.${publicPath}${filename}` === `.${publicPath}${title}.mp3`) {
-    //     let filePath = `${publicPath}${title}.mp3`;
-    //     ctx.body = {
-    //       code: 0,
-    //       msg: "操作成功",
-    //       src: filePath
-    //     };
-    //     flag = false;
-    //   }
-    // });
-    if (flag) {
-      // let strArr = [];
-      // let contentLength = content.length;
-      // let num = contentLength - contentNum;
-      // let i = 1;
-      // while (num >= 0) {
-      //   let str =
-      //     i === 1
-      //       ? content.substring(0, contentNum * i)
-      //       : content.substring(contentNum * (i - 1), contentNum * i);
-      //   strArr.push({ title, content: str });
-      //   num = contentLength - contentNum * i;
-      //   i++;
-      // }
-      // if (i === 1 && num < 0) {
-      //   strArr.push({ title, content });
-      // }
-      // let { filePath, errmsg } = await getAudio(strArr);
-      let { filePath, errmsg } = await getAudio({ title, content });
-      console.log(filePath)
-      if (filePath) {
-        ctx.body = {
-          code: 0,
-          msg: "操作成功",
-          src: filePath
-        };
-      } else {
-        sendError(ctx, { errmsg });
-      }
+    let { filePath, errmsg } = await getAudio({ title, content });
+    if (filePath) {
+      ctx.body = {
+        code: 0,
+        msg: "操作成功",
+        src: filePath
+      };
+    } else {
+      sendError(ctx, { errmsg });
     }
   } else {
     sendError(ctx, { errmsg: "参数不能为空" });
@@ -235,32 +188,6 @@ const filefilter = data => {
 
 const getAudio = data => {
   return new Promise(async resolve => {
-    // 调用http模块的request方法请求百度接口
-    // const publicPath = "/public/audio/";
-    // let chunks = [];
-    // for (let i = 0; i < data.length; i++) {
-    //   const postData = querystring.stringify({
-    //     lan: "zh", // zh表示中文
-    //     ie: "UTF-8", // 字符编码
-    //     spd: 4, // 表示朗读的语速，1-9 1 最慢 9 最快
-    //     text: data[i].content // 表示要转换的文字
-    //   });
-    //   const options = {
-    //     methods: "GET",
-    //     hostname: "tts.baidu.com",
-    //     path: "/text2audio?" + postData
-    //   };
-    //   let result = await getBaiduApi(options);
-    //   chunks.push(...result);
-    // }
-    // // 这里用到了Buffer模块，大概意思就是把获取到的语音文件流存入到body里面，body是一个Buffer
-    // const body = Buffer.concat(chunks);
-    // // 生成的mp3文件存储的路径
-    // const filePath = path.normalize(`.${publicPath}${data[0].title}.mp3`);
-    // // fs模块写文件
-    // fs.writeFileSync(filePath, body);
-    // resolve({ filePath: `${publicPath}${data[0].title}.mp3` });
-
     // https请求百度接口
     let { title, content } = data;
     const postData = querystring.stringify({
@@ -287,17 +214,14 @@ const getAudio = data => {
       }
     };
     const req = https.request(options, res => {
-      let src = ""
-      // console.log(`STATUS: ${res.statusCode}`);
-      // console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+      let src = "";
       res.setEncoding("utf8");
       res.on("data", chunk => {
         // console.log("chunk", chunk)
-        src = JSON.parse(chunk).bosUrl
+        src = JSON.parse(chunk).bosUrl;
       });
       res.on("end", () => {
-        resolve({ filePath: src })
-        // console.log("No more data in response.");
+        resolve({ filePath: src });
       });
     });
     req.on("error", e => {
@@ -308,21 +232,5 @@ const getAudio = data => {
     req.end();
   });
 };
-
-// http请求文字转换语音的方法
-// const getBaiduApi = options => {
-//   return new Promise(resolve => {
-//     const req = http.request(options, function(res) {
-//       let chunks = [];
-//       res.on("data", function(chunk) {
-//         chunks.push(chunk); // 获取到的音频文件数据暂存到chunks里面
-//       });
-//       res.on("end", function() {
-//         resolve(chunks);
-//       });
-//     });
-//     req.end();
-//   });
-// };
 
 module.exports = router;
