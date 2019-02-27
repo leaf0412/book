@@ -2,25 +2,24 @@
   <transition name="shift-left">
     <div class="bookrack">
       <div class="main">
-        <template v-if="bookList.length > 0">
-          <div class="bg"
-               v-for="item in bookList"
-               :key="item.title">
-            <div class="imgList"
-                 :title="item.title"
-                 @click="goto(item)">
-              <img v-lazy="item.pic"
-                   width="100%">
-              <div class="txt">{{item.title}}</div>
+        <div class="bg">
+          <template v-if="bookList.length > 0">
+            <div
+              class="imgList"
+              v-for="item in bookList"
+              :key="item.title"
+              :title="item.title"
+              @click="goto(item)"
+            >
+              <img v-lazy="item.pic" width="100%" />
+              <div class="txt">{{ item.title }}</div>
             </div>
-          </div>
-        </template>
-        <div class="empty"
-             v-else>
-          <router-link class="back"
-                       :to="{path:'/'}">返回精选</router-link>
-          <div class="txt">
-            请阅读书籍后并添加到书架中
+          </template>
+          <div class="empty" v-else>
+            <router-link class="back" :to="{ path: '/' }">返回精选</router-link>
+            <div class="txt">
+              请阅读书籍后并添加到书架中
+            </div>
           </div>
         </div>
       </div>
@@ -33,8 +32,7 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "bookrack",
   data() {
-    return {
-    };
+    return {};
   },
   components: {},
   computed: {
@@ -92,7 +90,7 @@ export default {
       .back {
         color: #fc6e51;
       }
-      .txt{
+      .txt {
         margin: px2rem(10) 0;
       }
     }

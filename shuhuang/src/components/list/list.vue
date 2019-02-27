@@ -1,6 +1,6 @@
 <template>
   <div class="item" @click="goto(list)">
-    <img v-lazy="list.pic" class="img">
+    <img v-lazy="list.pic" class="img" />
     <!-- <div class="img" :style="{ backgroundImage: 'url(' + list.pic + ')' }"></div> -->
     <div class="info">
       <div class="title">{{ list.title }}</div>
