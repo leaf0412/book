@@ -16,8 +16,8 @@ export default {
       state.bookinfo = data;
       state.content = data.content;
     },
-    getBookAudio(state, data) {
-      state.audioSrc = config.apiUrl + data;
+    changeBookAudio(state, data) {
+      state.audioSrc = data;
     },
     changeButtonText(state, data) {
       state.buttonText = data;
@@ -48,9 +48,9 @@ export default {
         let result = "";
         const { code, src } = await bookPlay(params);
         if (code === 0) {
-          result = src;
+          result = config.apiUrl + src;
         }
-        commit("getBookAudio", result);
+        commit("changeBookAudio", result);
         resolve(result);
       });
     }

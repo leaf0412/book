@@ -59,8 +59,9 @@ export default {
       border-radius: px2rem(10);
       position: relative;
       padding: px2rem(20);
-      margin: px2rem(10);
+      margin: px2rem(20);
       background: linear-gradient(to bottom right, #ef8772, #fc6e51);
+      box-shadow: 0 0 px2rem(20) #fc6e51;
       &::after {
         content: "1";
         position: absolute;

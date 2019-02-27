@@ -29,6 +29,7 @@ app.use(cors(config.cors));
 
 // 配置文件上传和post请求接受数据
 app.use(koaBody(config.koabody));
+
 // 路由
 app.use(router());
 

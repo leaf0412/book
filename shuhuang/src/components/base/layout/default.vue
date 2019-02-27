@@ -31,12 +31,12 @@ export default {
           id: 3,
           name: "书架",
           to: "/bookrack"
-        },
-        {
-          id: 4,
-          name: "搜索",
-          to: "/search"
         }
+        // {
+        //   id: 4,
+        //   name: "搜索",
+        //   to: "/search"
+        // }
       ]
     };
   },

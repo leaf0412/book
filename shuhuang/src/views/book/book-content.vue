@@ -137,7 +137,7 @@ export default {
   },
   methods: {
     ...mapActions(["getBookContent", "getBookAudio"]),
-    ...mapMutations(["changeButtonText"]),
+    ...mapMutations(["changeButtonText", "changeBookAudio"]),
     _getContent() {
       const parmas = this.$route.query;
       this.show = false;
@@ -236,6 +236,7 @@ export default {
           title: this.title,
           content: this.$refs.Content.innerText
         };
+        this.changeBookAudio("");
         const result = await this.getBookAudio(parmas);
         if(result) {
           document.getElementById("mp3Btn").play();

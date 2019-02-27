@@ -1,16 +1,34 @@
 <template>
   <transition name="shift-left">
     <div class="bookrack">
-      <ul class="top-wrapper">
-        <li
-          class="item"
-          :class="menuActive === item.type ? 'active' : ''"
-          v-for="item in menuList"
-          :key="item.id"
-        >
-          {{ item.name }}
-        </li>
-      </ul>
+      <div class="main">
+        <div class="bg">
+          <div class="imgList">
+            <img :src="imgsrc" width="100%">
+            <div class="txt">书籍名称</div>
+          </div>
+          <div class="imgList">
+            <img :src="imgsrc" width="100%">
+            <div class="txt">书籍名称</div>
+          </div>
+          <div class="imgList">
+            <img :src="imgsrc" width="100%">
+            <div class="txt">书籍名称</div>
+          </div>
+          <div class="imgList">
+            <img :src="imgsrc" width="100%">
+            <div class="txt">书籍名称</div>
+          </div>
+          <div class="imgList">
+            <img :src="imgsrc" width="100%">
+            <div class="txt">书籍名称</div>
+          </div>
+          <div class="imgList">
+            <img :src="imgsrc" width="100%">
+            <div class="txt">书籍名称</div>
+          </div>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -21,19 +39,8 @@ export default {
   name: "bookrack",
   data() {
     return {
-      menuActive: "readingRecode",
-      menuList: [
-        {
-          id: 1,
-          type: "readingRecode",
-          name: "阅读记录"
-        },
-        {
-          id: 2,
-          type: "bookrack",
-          name: "我的书架"
-        }
-      ]
+      imgsrc: require("@/assets/image/nopic.png"),
+      he: "120px"
     };
   },
   components: {},
@@ -49,22 +56,26 @@ export default {
 
 <style lang="scss" scoped>
 .bookrack {
-  .top-wrapper {
-    width: 90%;
-    margin: px2rem(10) auto;
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
-    border-radius: px2rem(15);
-    background: #f5f5f5;
-    .item {
-      width: 50%;
-      text-align: center;
-      padding: px2rem(10);
-      border-radius: px2rem(15);
-      &.active {
-        background: $primary;
-        color: #fff;
+  .main {
+    padding: 20px 0;
+    .bg {
+      display: flex;
+      flex-flow: row wrap;
+      align-content: flex-start;
+      justify-content: space-evenly;
+      box-sizing: border-box;
+      .imgList {
+        width: px2rem(100);
+        margin: px2rem(10);
+        box-shadow: 1px 3px 25px 5px rgba(0, 0, 0, .5);
+        box-sizing: border-box;
+        .txt {
+          width: inherit;
+          padding: px2rem(10) 0;
+          text-align: center;
+          font-size: px2rem(15);
+          @include ell();
+        }
       }
     }
   }

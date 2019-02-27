@@ -21,7 +21,13 @@ module.exports = {
   koabody: {
     multipart: true,
     formidable: {
-      // maxFileSize: 200 * 1024 * 1024    // 设置上传文件大小最大限制，默认2M
+      maxFileSize: 200 * 1024 * 1024 // 设置上传文件大小最大限制，默认2M
+    },
+    // 解决请求数据过大 request entity too large
+    enableTypes: ["json", "form", "text"],
+    formLimit: "3mb",
+    queryString: {
+      parameterLimit: 100000000000000
     }
   },
   // error 配置
