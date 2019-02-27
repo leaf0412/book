@@ -15,6 +15,12 @@ export const getChapterDetail = params => {
     .then(res => res.data);
 };
 
+export const getBookrackList = params => {
+  return axios
+    .post(`${config.apiUrl}${perfix}/findBooks`, params)
+    .then(res => res.data);
+};
+
 export const bookPlay = params => {
   return axios
     .post(`${config.apiUrl}${perfix}/play`, params)

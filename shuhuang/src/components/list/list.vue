@@ -1,6 +1,7 @@
 <template>
   <div class="item" @click="goto(list)">
-    <div class="img" :style="{ backgroundImage: 'url(' + emtry + ')' }"></div>
+    <img v-lazy="list.pic" class="img">
+    <!-- <div class="img" :style="{ backgroundImage: 'url(' + list.pic + ')' }"></div> -->
     <div class="info">
       <div class="title">{{ list.title }}</div>
       <div class="description">{{ list.desc }}</div>
@@ -20,7 +21,7 @@
 export default {
   data() {
     return {
-      emtry: require("../../assets/image/nopic.png")
+      // emtry: require("../../assets/image/nopic.png")
     };
   },
   props: {

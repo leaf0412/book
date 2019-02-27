@@ -1,16 +1,16 @@
-const Router = require("koa-router");
-const Books = require("../databases/model/books");
-const { sendError } = require("../config/common");
+const Router = require('koa-router');
+const Books = require('../databases/model/books');
+const { sendError } = require('../config/common');
 const router = new Router();
-const fs = require("fs");
-const path = require("path");
-const http = require("http");
-const querystring = require("querystring");
+const fs = require('fs');
+const path = require('path');
+const http = require('http');
+const querystring = require('querystring');
 
-router.prefix("/book");
+router.prefix('/book');
 
 /* 热门推荐 */
-router.post("/hot", async function(ctx, next) {
+router.post('/hot', async ctx => {
   let { type, page = 1, pageSize = 10 } = ctx.request.body;
   page = parseInt(page);
   pageSize = parseInt(pageSize);
@@ -23,15 +23,34 @@ router.post("/hot", async function(ctx, next) {
   if (doc) {
     ctx.body = {
       code: 0,
-      msg: "操作成功",
+      msg: '操作成功',
       count: doc.length,
       list: doc
     };
   }
 });
 
+router.post('/findBooks', async ctx => {
+  let { bookList } = ctx.request.body;
+  // bookList = bookList.split(',');
+  bookList = JSON.parse(bookList);
+  let res = await Books.find(
+    { bookid: { $in: bookList } },
+    { bookid: 1, title: 1, pic: 1 }
+  );
+  if (res) {
+    ctx.body = {
+      code: 0,
+      msg: '操作成功',
+      list: res
+    };
+  } else {
+    sendError(ctx, { errmsg: '暂无数据' });
+  }
+});
+
 /* 单个书籍详情 */
-router.get("/detail", async (ctx, next) => {
+router.get('/detail', async ctx => {
   let { bookid } = ctx.query;
   if (bookid) {
     let res = await Books.findOne(
@@ -40,26 +59,26 @@ router.get("/detail", async (ctx, next) => {
         _id: 0,
         __v: 0,
         sectionList: { $slice: 10 },
-        "sectionList._id": 0,
-        "sectionList.content": 0
+        'sectionList._id': 0,
+        'sectionList.content': 0
       }
     );
     if (res) {
       ctx.body = {
         code: 0,
-        msg: "操作成功",
+        msg: '操作成功',
         list: res
       };
     } else {
-      sendError(ctx, { errmsg: "暂无数据" });
+      sendError(ctx, { errmsg: '暂无数据' });
     }
   } else {
-    sendError(ctx, { errmsg: "参数不能为空" });
+    sendError(ctx, { errmsg: '参数不能为空' });
   }
 });
 
 /* 全部章节 */
-router.get("/allChapter", async ctx => {
+router.get('/allChapter', async ctx => {
   let { bookid, page = 0, pageSize = 10 } = ctx.query;
   let skip = parseInt(page) * parseInt(pageSize);
   let limit = parseInt(pageSize);
@@ -69,56 +88,56 @@ router.get("/allChapter", async ctx => {
       {
         _id: 0,
         sectionList: { $slice: [skip, limit] },
-        "sectionList.id": 1,
-        "sectionList.title": 1
+        'sectionList.id': 1,
+        'sectionList.title': 1
       }
     );
     if (res) {
       ctx.body = {
         code: 0,
-        msg: "操作成功",
+        msg: '操作成功',
         list: res.sectionList
       };
     } else {
-      sendError(ctx, { errmsg: "暂无数据" });
+      sendError(ctx, { errmsg: '暂无数据' });
     }
   } else {
-    sendError(ctx, { errmsg: "参数不能为空" });
+    sendError(ctx, { errmsg: '参数不能为空' });
   }
 });
 
 /* 每一章节的详情 */
-router.get("/chapterDetail", async ctx => {
+router.get('/chapterDetail', async ctx => {
   let { id } = ctx.query;
   if (id) {
     let res = await Books.findOne(
-      { "sectionList.id": id },
-      { _id: 0, bookid: 1, "sectionList.$": 1, count: 1 }
+      { 'sectionList.id': id },
+      { _id: 0, bookid: 1, 'sectionList.$': 1, count: 1 }
     );
     if (res) {
       ctx.body = {
         code: 0,
-        msg: "操作成功",
+        msg: '操作成功',
         bookid: res.bookid,
         list: res.sectionList[0]
       };
       let count = parseInt(res.count);
       count++;
-      await Books.updateOne({ "sectionList.id": id }, { $set: { count } });
+      await Books.updateOne({ 'sectionList.id': id }, { $set: { count } });
     } else {
-      sendError(ctx, { errmsg: "查无此章节" });
+      sendError(ctx, { errmsg: '查无此章节' });
     }
   } else {
-    sendError(ctx, { errmsg: "参数不能为空" });
+    sendError(ctx, { errmsg: '参数不能为空' });
   }
 });
 
 /* 暂时没有用上传，只是预留 */
-router.post("/upload", async (ctx, next) => {
+router.post('/upload', async ctx => {
   // 上传单个文件
   const file = ctx.request.files.file; // 获取上传文件
   if (!file) {
-    sendError(ctx, { errmsg: "参数不能为空" });
+    sendError(ctx, { errmsg: '参数不能为空' });
   }
   if (Array.isArray(file)) {
     for (let data of file) {
@@ -129,24 +148,24 @@ router.post("/upload", async (ctx, next) => {
   }
   ctx.body = {
     code: 0,
-    msg: "上传成功！"
+    msg: '上传成功！'
   };
 });
 
 /* 每一章节的内容进行语音播放 */
-router.post("/play", async ctx => {
+router.post('/play', async ctx => {
   let { title, content } = ctx.request.body;
   if (content && title) {
-    content = content.replace(/\s+/g, "");
-    content = content.replace(/@+/g, "");
-    title = title.replace(/\s+/g, "");
-    title = title.replace(/-/g, "");
+    content = content.replace(/\s+/g, '');
+    content = content.replace(/@+/g, '');
+    title = title.replace(/\s+/g, '');
+    title = title.replace(/-/g, '');
     const fileNum = 5;
     const contentNum = 800;
-    const publicPath = "/public/audio/";
+    const publicPath = '/public/audio/';
     const folderExists = fs.existsSync(`.${publicPath}`);
     if (!folderExists) {
-      sendError(ctx, { errmsg: "文件夹不存在" });
+      sendError(ctx, { errmsg: '文件夹不存在' });
     }
     // 该文件夹下的文件数量到达
     const files = fs.readdirSync(`.${publicPath}`);
@@ -162,7 +181,7 @@ router.post("/play", async ctx => {
         let filePath = `${publicPath}${title}.mp3`;
         ctx.body = {
           code: 0,
-          msg: "操作成功",
+          msg: '操作成功',
           src: filePath
         };
         flag = false;
@@ -189,7 +208,7 @@ router.post("/play", async ctx => {
       if (filePath) {
         ctx.body = {
           code: 0,
-          msg: "操作成功",
+          msg: '操作成功',
           src: filePath
         };
       } else {
@@ -197,7 +216,7 @@ router.post("/play", async ctx => {
       }
     }
   } else {
-    sendError(ctx, { errmsg: "参数不能为空" });
+    sendError(ctx, { errmsg: '参数不能为空' });
   }
 });
 
@@ -222,7 +241,7 @@ const filefilter = data => {
   // 创建可读流
   const reader = fs.createReadStream(data.path);
   let filePath =
-    path.join(__dirname, "../public/upload/") + `${Date.now() + data.name}`;
+    path.join(__dirname, '../public/upload/') + `${Date.now() + data.name}`;
   // 创建可写流
   const upStream = fs.createWriteStream(filePath);
   // 可读流通过管道写入可写流
@@ -232,19 +251,19 @@ const filefilter = data => {
 const getAudio = data => {
   return new Promise(async resolve => {
     // 调用http模块的request方法请求百度接口
-    const publicPath = "/public/audio/";
+    const publicPath = '/public/audio/';
     let chunks = [];
     for (let i = 0; i < data.length; i++) {
       const postData = querystring.stringify({
-        lan: "zh", // zh表示中文
-        ie: "UTF-8", // 字符编码
+        lan: 'zh', // zh表示中文
+        ie: 'UTF-8', // 字符编码
         spd: 4, // 表示朗读的语速，1-9 1 最慢 9 最快
         text: data[i].content // 表示要转换的文字
       });
       const options = {
-        methods: "GET",
-        hostname: "tts.baidu.com",
-        path: "/text2audio?" + postData
+        methods: 'GET',
+        hostname: 'tts.baidu.com',
+        path: '/text2audio?' + postData
       };
       let result = await getBaiduApi(options);
       chunks.push(...result);
@@ -256,7 +275,6 @@ const getAudio = data => {
     // fs模块写文件
     fs.writeFileSync(filePath, body);
     resolve({ filePath: `${publicPath}${data[0].title}.mp3` });
-
   });
 };
 
@@ -265,10 +283,10 @@ const getBaiduApi = options => {
   return new Promise(resolve => {
     const req = http.request(options, function(res) {
       let chunks = [];
-      res.on("data", function(chunk) {
+      res.on('data', function(chunk) {
         chunks.push(chunk); // 获取到的音频文件数据暂存到chunks里面
       });
-      res.on("end", function() {
+      res.on('end', function() {
         resolve(chunks);
       });
     });

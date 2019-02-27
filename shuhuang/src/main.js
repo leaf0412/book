@@ -5,6 +5,10 @@ import store from "./vuex/store";
 import "./assets/styles/font/iconfont.css";
 import "./assets/styles/reset.scss";
 
+// 图片懒加载
+import VueLazyload from "vue-lazyload";
+Vue.use(VueLazyload);
+
 // 手机物理返回键
 import "./plugin/plus";
 

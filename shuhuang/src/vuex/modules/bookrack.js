@@ -1,8 +1,21 @@
+import { getBookrackList as _getBookrackList } from "@/interface/book.js";
 export default {
   state: {
-    readingRecode: "reading_recode",
-    bookrack: "my_bookrack"
+    bookList: []
   },
   mutations: {},
-  actions: {}
+  actions: {
+    async getBookrackList({ state }) {
+      let bookrackList = localStorage.bookrackList;
+      if (bookrackList) {
+        const parmas = {
+          bookList: bookrackList
+        };
+        const { code, list } = await _getBookrackList(parmas);
+        if (code === 0) {
+          state.bookList = list;
+        }
+      }
+    }
+  }
 };

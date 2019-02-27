@@ -2,10 +2,25 @@
   <transition name="shift-left">
     <div class="bookrack">
       <div class="main">
-        <div class="bg">
-          <div class="imgList">
-            <img :src="imgsrc" width="100%">
-            <div class="txt">书籍名称</div>
+        <template v-if="bookList.length > 0">
+          <div class="bg"
+               v-for="item in bookList"
+               :key="item.title">
+            <div class="imgList"
+                 :title="item.title"
+                 @click="goto(item)">
+              <img v-lazy="item.pic"
+                   width="100%">
+              <div class="txt">{{item.title}}</div>
+            </div>
+          </div>
+        </template>
+        <div class="empty"
+             v-else>
+          <router-link class="back"
+                       :to="{path:'/'}">返回精选</router-link>
+          <div class="txt">
+            请阅读书籍后并添加到书架中
           </div>
         </div>
       </div>
@@ -19,17 +34,30 @@ export default {
   name: "bookrack",
   data() {
     return {
-      imgsrc: require("@/assets/image/nopic.png"),
-      he: "120px"
     };
   },
   components: {},
   computed: {
-    ...mapState({})
+    ...mapState({
+      bookList: state => state.bookrack.bookList
+    })
   },
-  mounted() {},
+  mounted() {
+    this.getBookrackList();
+  },
+  activated() {
+    this.getBookrackList();
+  },
   methods: {
-    ...mapActions([])
+    ...mapActions(["getBookrackList"]),
+    goto(item) {
+      this.$router.push({
+        path: "/book",
+        query: {
+          bookid: item.bookid
+        }
+      });
+    }
   }
 };
 </script>
@@ -42,12 +70,12 @@ export default {
       display: flex;
       flex-flow: row wrap;
       align-content: flex-start;
-      justify-content: space-evenly;
+      justify-content: space-between;
       box-sizing: border-box;
       .imgList {
         width: px2rem(100);
         margin: px2rem(10);
-        box-shadow: 1px 3px 25px 5px rgba(0, 0, 0, .5);
+        box-shadow: 1px 3px 25px 5px rgba(0, 0, 0, 0.5);
         box-sizing: border-box;
         .txt {
           width: inherit;
@@ -56,6 +84,16 @@ export default {
           font-size: px2rem(15);
           @include ell();
         }
+      }
+    }
+    .empty {
+      text-align: center;
+      font-size: px2rem(20);
+      .back {
+        color: #fc6e51;
+      }
+      .txt{
+        margin: px2rem(10) 0;
       }
     }
   }
