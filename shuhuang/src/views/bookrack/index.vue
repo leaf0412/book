@@ -7,26 +7,6 @@
             <img :src="imgsrc" width="100%">
             <div class="txt">书籍名称</div>
           </div>
-          <div class="imgList">
-            <img :src="imgsrc" width="100%">
-            <div class="txt">书籍名称</div>
-          </div>
-          <div class="imgList">
-            <img :src="imgsrc" width="100%">
-            <div class="txt">书籍名称</div>
-          </div>
-          <div class="imgList">
-            <img :src="imgsrc" width="100%">
-            <div class="txt">书籍名称</div>
-          </div>
-          <div class="imgList">
-            <img :src="imgsrc" width="100%">
-            <div class="txt">书籍名称</div>
-          </div>
-          <div class="imgList">
-            <img :src="imgsrc" width="100%">
-            <div class="txt">书籍名称</div>
-          </div>
         </div>
       </div>
     </div>
